@@ -8,6 +8,12 @@ Download here:
 curl -L https://foundry.paradigm.xyz | bash
 ```
 
+## .ENV
+
+For all deployments to work you need to make an .env file with the following constants:
+
+> WEMIX_TESNET_PRIVATE_KEY
+
 ## LIB
 
 It is built with OpenZeppelin library version 4.9.0; Make sure both "open-zeppelin" and "forge-std" libraries are installed in lib folder!

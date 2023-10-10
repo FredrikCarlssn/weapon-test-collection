@@ -1,0 +1,31 @@
+{
+    "name": "Tidecaller's Talisman",
+    "description": "CRG NFT  TEST COLLECTION 0x8",
+    "image": "ipfs://QmNLpxrAHKSUyCW8UazdezzvsJ4kfVbSkGr3h16j7FkRFn",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Amulet"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Precision"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Resolve"
+        },
+        {
+            "trait_type": "Max Durability",
+            "value": "10"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Critical Hit Chance 5-10"
+        }
+    ]
+}

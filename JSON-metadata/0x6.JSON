@@ -1,0 +1,31 @@
+{
+    "name": "Dragons Heart Amulet",
+    "description": "CRG NFT  TEST COLLECTION 0x6",
+    "image": "ipfs://QmQWW1H8xJE8WqHPqzVfN27Rsh4mnBJ1pH1QvFsR3xfjQu",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Amulet"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Attack Speed"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Brilliance"
+        },
+        {
+            "trait_type": "Max Durability",
+            "value": "10"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Brilliance 2-5"
+        }
+    ]
+}

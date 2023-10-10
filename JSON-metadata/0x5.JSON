@@ -1,0 +1,43 @@
+{
+    "name": "Scepter of the Phoenix Flame",
+    "description": "CRG NFT TEST COLLECTION 0x5",
+    "image": "ipfs://QmRmsgwKbo6MKinMBZtM91TLh9F1dYDDjHF434r54i8neY",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "2h Mace"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Damage"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Potency"
+        },
+        {
+            "trait_type": "Range",
+            "value": 3
+        },
+        {
+            "trait_type": "Attack Speed",
+            "value": 0.6
+        },
+        {
+            "trait_type": "Damage",
+            "value": "Physical 5-20"
+        },
+        {
+            "trait_type": "Max Durability",
+            "value": "20-25"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Stun Chance (+)15-25%"
+        }
+    ]
+}

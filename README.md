@@ -13,6 +13,8 @@ curl -L https://foundry.paradigm.xyz | bash
 For all deployments to work you need to make an .env file with the following constants:
 
 > WEMIX_TESNET_PRIVATE_KEY = ""
+> WEMIX_MAIN_PRIVATE_KEY = ""
+> SEPOLIA_TESNET_PRIVATE_KEY = ""
 
 ## LIB
 

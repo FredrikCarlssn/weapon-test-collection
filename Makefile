@@ -15,5 +15,3 @@ WemixMainDeploy:
 
 SepoliaTestDeploy:
 	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url https://eth-sepolia-public.unifra.io --private-key $(SEPOLIA_TESTNET_PRIVATE_KEY) --broadcast
-
-	

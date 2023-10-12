@@ -1,43 +1,31 @@
 {
-    "name": "Blade of the Eternal Moon",
-    "description": "CRG NFT TEST COLLECTION 0x4",
-    "image": "ipfs://QmUwE3EVkjHX2CnRz1mDNCNffKbe5CEnsvNCkDFDgKJ3Fd",
-    "attributes": [
-        {
-            "trait_type": "Type",
-            "value": "2h Sword"
-        },
-        {
-            "trait_type": "Tier",
-            "value": 1
-        },
-        {
-            "trait_type": "Theme",
-            "value": "Precision"
-        },
-        {
-            "trait_type": "Family",
-            "value": "Potency"
-        },
-        {
-            "trait_type": "Range",
-            "value": 3
-        },
-        {
-            "trait_type": "Attack Speed",
-            "value": 0.8
-        },
-        {
-            "trait_type": "Damage",
-            "value": "Physical 6-9"
-        },
-        {
-            "trait_type": "Max Durability",
-            "value": "15-20"
-        },
-        {
-            "trait_type": "Mods",
-            "value": "Critical Hit Damage (+)15-25%"
-        }
-    ]
+  "name": "Blade of the Eternal Moon",
+  "description": "CRG NFT TEST COLLECTION 0x4",
+  "image": "ipfs://QmNkwVEd4q7Juwz9ZwMhAZ62Wwu5RPNuYGFeEs3PDrUXJx",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "2h Sword"
+    },
+    {
+      "trait_type": "Tier",
+      "value": 1
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Precision"
+    },
+    {
+      "trait_type": "Family",
+      "value": "Potency"
+    },
+    {
+      "trait_type": "Damage",
+      "value": "Physical 6-9"
+    },
+    {
+      "trait_type": "Mods",
+      "value": "Critical Hit Damage (+)15-25%"
+    }
+  ]
 }

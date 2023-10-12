@@ -1,31 +1,27 @@
 {
-    "name": "Veil of the Phantom",
-    "description": "CRG NFT  TEST COLLECTION 0x9",
-    "image": "ipfs://Qmc9Na4NjpzrJkPe2ndgDFi5gQgznvh7oH3G75FKgST3mU",
-    "attributes": [
-        {
-            "trait_type": "Type",
-            "value": "Amulet"
-        },
-        {
-            "trait_type": "Tier",
-            "value": 1
-        },
-        {
-            "trait_type": "Theme",
-            "value": "Attack Speed"
-        },
-        {
-            "trait_type": "Family",
-            "value": "Resilience"
-        },
-        {
-            "trait_type": "Max Durability",
-            "value": "10"
-        },
-        {
-            "trait_type": "Mods",
-            "value": "Max Aether (+)15-20"
-        }
-    ]
+  "name": "Veil of the Phantom",
+  "description": "CRG NFT  TEST COLLECTION 0x9",
+  "image": "ipfs://Qmf3dCGwTKJm2WWKfSmDZuPkW4fLWgqcKKu7YqvMThY3PJ",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Amulet"
+    },
+    {
+      "trait_type": "Tier",
+      "value": 1
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Attack Speed"
+    },
+    {
+      "trait_type": "Family",
+      "value": "Resilience"
+    },
+    {
+      "trait_type": "Mods",
+      "value": "Max Aether (+)15-20"
+    }
+  ]
 }

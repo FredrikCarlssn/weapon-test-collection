@@ -1,31 +1,27 @@
 {
-    "name": "Luminara's Locket",
-    "description": "CRG NFT  TEST COLLECTION 0x7",
-    "image": "ipfs://QmZuwkhvvNeApQuxr1WkkxqbVjToZKi27HgyTQC9sokewV",
-    "attributes": [
-        {
-            "trait_type": "Type",
-            "value": "Amulet"
-        },
-        {
-            "trait_type": "Tier",
-            "value": 1
-        },
-        {
-            "trait_type": "Theme",
-            "value": "Medium"
-        },
-        {
-            "trait_type": "Family",
-            "value": "Potency"
-        },
-        {
-            "trait_type": "Max Durability",
-            "value": "10"
-        },
-        {
-            "trait_type": "Mods",
-            "value": "Max Life (+)15-20"
-        }
-    ]
+  "name": "Luminara's Locket",
+  "description": "CRG NFT  TEST COLLECTION 0x7",
+  "image": "ipfs://QmfKRrHRmQV5Vk63Nc98Ltnm1QNxJG1P9yb7ebZuYWBxAS",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Amulet"
+    },
+    {
+      "trait_type": "Tier",
+      "value": 1
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Family",
+      "value": "Potency"
+    },
+    {
+      "trait_type": "Mods",
+      "value": "Max Life (+)15-20"
+    }
+  ]
 }

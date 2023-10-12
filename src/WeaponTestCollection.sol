@@ -8,7 +8,7 @@ import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 contract WeaponTestCollection is ERC721URIStorage, TestCollectionStorage {
     uint256 private s_tokenCounter = 0;
 
-    constructor() ERC721("Weapons from Shadowrealm of Naramunz", "WFSON") {
+    constructor() ERC721("Weapons from Shadowrealm", "WFS") {
         for (uint256 i; i < s_URILength; i++) {
             mintNft(msg.sender, tokenURIs[i]);
         }

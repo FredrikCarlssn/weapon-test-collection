@@ -8,18 +8,23 @@ import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 contract WeaponTestCollection is ERC721URIStorage, TestCollectionStorage {
     uint256 private s_tokenCounter = 0;
 
-    constructor() ERC721("Weapons from Shadowrealm", "WFS") {
-        for (uint256 i; i < s_URILength; i++) {
-            mintNft(msg.sender, tokenURIs[i]);
+    mapping(uint256 => Item) public tokenIdToItem;
+
+    constructor() ERC721("Weapons Of Shadowrealm", "WOS") {
+        uint256 tokenMetaDataLength = tokenMetaData.length;
+        for (uint256 i; i < tokenMetaDataLength; i++) {
+            mintNft(msg.sender, tokenURIs[i], i);
         }
     }
 
     function mintNft(
         address _recipient,
-        string memory _tokenUri
+        string memory _tokenUri,
+        uint256 _metaDataNumber
     ) public payable {
         _mint(_recipient, s_tokenCounter);
         _setTokenURI(s_tokenCounter, _tokenUri);
+        tokenIdToItem[s_tokenCounter] = tokenMetaData[_metaDataNumber];
         s_tokenCounter++;
     }
 

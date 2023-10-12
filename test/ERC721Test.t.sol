@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract NFTTest is Test {
     string constant DEFAULT_URI =
-        "https://ipfs.io/ipfs/Qmf6NetjT2Pz4U8qFXQTSWVfmthkHGDdx1gp3ZUrDBmp1j?filename=0.JSON";
+        "https://ipfs.io/ipfs/Qmcj8MVSSUgPAW1YnkVynkV5keYKMjDbGLx4EWDHffrQMh?filename=0x0.JSON";
     WeaponTestCollection weaponTestCollection;
 
     function setUp() public {
@@ -17,17 +17,17 @@ contract NFTTest is Test {
     }
 
     function testFailMintNoPaid() public {
-        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI, 0);
         vm.expectRevert("wrongpayment()");
     }
 
     function testCorrectMintPrice() public {
-        weaponTestCollection.mintNft{value: 1 ether}(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI, 0);
     }
 
     function testMintAndSuppply() public {
-        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI);
-        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI, 0);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI, 0);
         uint256 supply = weaponTestCollection.totalSupply();
         assertEq(supply, 12);
     }
@@ -35,20 +35,24 @@ contract NFTTest is Test {
     function testFailMintToZeroAddress() public {
         address zero = address(0);
         hoax(zero, 2 ether);
-        weaponTestCollection.mintNft{value: 1 ether}(zero, DEFAULT_URI);
+        weaponTestCollection.mintNft{value: 1 ether}(zero, DEFAULT_URI, 0);
         vm.expectRevert("ERC721: mint to the zero address");
     }
 
     function testFailUnSafeContractReceiver() public {
         vm.etch(address(1), bytes("mock code"));
         vm.prank(address(1));
-        weaponTestCollection.mintNft{value: 1 ether}(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft{value: 1 ether}(
+            msg.sender,
+            DEFAULT_URI,
+            0
+        );
     }
 
     function testreveal() public {
         address bob = vm.addr(8);
         hoax(bob, 2 ether);
-        weaponTestCollection.mintNft{value: 1 ether}(bob, DEFAULT_URI);
+        weaponTestCollection.mintNft{value: 1 ether}(bob, DEFAULT_URI, 0);
         string memory meta = DEFAULT_URI;
         string memory uri = weaponTestCollection.tokenURI(0);
         console.log("URI1: ", weaponTestCollection.tokenURI(0));

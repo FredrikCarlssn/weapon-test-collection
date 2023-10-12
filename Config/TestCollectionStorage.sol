@@ -2,40 +2,143 @@
 pragma solidity 0.8.18;
 
 contract TestCollectionStorage {
+    Item[] public tokenMetaData;
     mapping(uint256 => string) public tokenURIs;
-    uint256 internal s_URILength;
+
+    struct Item {
+        string tokenUri;
+        uint256 Tier;
+        uint256 Damage;
+        string ModsType;
+        uint256 ModsValue;
+        uint256 ModsValue2;
+    }
 
     constructor() {
-        tokenURIs[
-            0
-        ] = "https://ipfs.io/ipfs/Qmcj8MVSSUgPAW1YnkVynkV5keYKMjDbGLx4EWDHffrQMh?filename=0x0.JSON";
-        tokenURIs[
-            1
-        ] = "https://ipfs.io/ipfs/QmeyxjNogKsNGA14P7djNMQu6Tk6i4BA6H2dPMDCQcZGso?filename=0x1.JSON";
-        tokenURIs[
-            2
-        ] = "https://ipfs.io/ipfs/QmehyM9PZq25p3Ss2XwY52fnCjpNa59BD2yTpaf5TbMFoq?filename=0x2.JSON";
-        tokenURIs[
-            3
-        ] = "https://ipfs.io/ipfs/QmeNaZeDbeyMKaQbLAczmNJVATPVGZ2vyMTT2KRM19aBYB?filename=0x3.JSON";
-        tokenURIs[
-            4
-        ] = "https://ipfs.io/ipfs/QmTC4BHDF6SpQPsgV98umRxkUYWRS2wUAKisdjY3bJ2QfN?filename=0x4.JSON";
-        tokenURIs[
-            5
-        ] = "https://ipfs.io/ipfs/QmaBRthYaf5P8vnzRb7yBqUyJ32mbSM1X3y8aZ13vT2LAW?filename=0x5.JSON";
-        tokenURIs[
-            6
-        ] = "https://ipfs.io/ipfs/QmZStJnqeMVSkiSPm1oqGe1QqLHEctTiJMcUPyToqtQiHn?filename=0x6.JSON";
-        tokenURIs[
-            7
-        ] = "https://ipfs.io/ipfs/QmP2cYNjQr9pjcfZfLpnGeo1aCRpZNeuCeEAssHLTDAURC?filename=0x7.JSON";
-        tokenURIs[
-            8
-        ] = "https://ipfs.io/ipfs/QmWvzWFLMH3gzf1eQEk3Q3PjNVH5aSTCV8dK6nAb19ecaN?filename=0x8.JSON";
-        tokenURIs[
-            9
-        ] = "https://ipfs.io/ipfs/QmT8jnWGByzhs6ep4SFZXgLmgXYMi5HXqaRA5cVxwF98Rp?filename=0x9.JSON";
-        s_URILength = 10; // s_URILength should equal totalSupply();
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/Qmcj8MVSSUgPAW1YnkVynkV5keYKMjDbGLx4EWDHffrQMh?filename=0x0.JSON",
+                4,
+                2,
+                "Critical Hit Damage",
+                15,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmeyxjNogKsNGA14P7djNMQu6Tk6i4BA6H2dPMDCQcZGso?filename=0x1.JSON",
+                4,
+                6,
+                "Min Damage & Max Damage",
+                2,
+                6
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmehyM9PZq25p3Ss2XwY52fnCjpNa59BD2yTpaf5TbMFoq?filename=0x2.JSON",
+                4,
+                5,
+                "Bleed Chance",
+                2,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmeNaZeDbeyMKaQbLAczmNJVATPVGZ2vyMTT2KRM19aBYB?filename=0x3.JSON",
+                4,
+                8,
+                "Loot Rarity",
+                75,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmTC4BHDF6SpQPsgV98umRxkUYWRS2wUAKisdjY3bJ2QfN?filename=0x4.JSON",
+                4,
+                9,
+                "Critical Hit Damage",
+                25,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmaBRthYaf5P8vnzRb7yBqUyJ32mbSM1X3y8aZ13vT2LAW?filename=0x5.JSON",
+                4,
+                20,
+                "Stun Chance",
+                25,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmZStJnqeMVSkiSPm1oqGe1QqLHEctTiJMcUPyToqtQiHn?filename=0x6.JSON",
+                4,
+                0,
+                "Brilliance",
+                5,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmP2cYNjQr9pjcfZfLpnGeo1aCRpZNeuCeEAssHLTDAURC?filename=0x7.JSON",
+                4,
+                0,
+                "Max Life",
+                20,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmWvzWFLMH3gzf1eQEk3Q3PjNVH5aSTCV8dK6nAb19ecaN?filename=0x8.JSON",
+                4,
+                0,
+                "Critical Hit Chance",
+                10,
+                0
+            )
+        );
+        tokenMetaData.push(
+            Item(
+                "https://ipfs.io/ipfs/QmT8jnWGByzhs6ep4SFZXgLmgXYMi5HXqaRA5cVxwF98Rp?filename=0x9.JSON",
+                4,
+                0,
+                "Max Aether",
+                20,
+                0
+            )
+        );
+
+        for (uint256 i; i < tokenMetaData.length; i++) {
+            tokenURIs[i] = tokenMetaData[i].tokenUri;
+        }
+    }
+
+    function addItemToMapping(
+        uint256 tokenId,
+        string memory _tokenUri,
+        uint256 _tier,
+        uint256 _damage,
+        string memory _modsType,
+        uint256 _modsValue,
+        uint256 _modsValue2
+    ) public {
+        Item memory newItem = Item({
+            tokenUri: _tokenUri,
+            Tier: _tier,
+            Damage: _damage,
+            ModsType: _modsType,
+            ModsValue: _modsValue,
+            ModsValue2: _modsValue2
+        });
+
+        tokenMetaData[tokenId] = newItem;
     }
 }

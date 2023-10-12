@@ -120,25 +120,4 @@ contract TestCollectionStorage {
             tokenURIs[i] = tokenMetaData[i].tokenUri;
         }
     }
-
-    function addItemToMapping(
-        uint256 tokenId,
-        string memory _tokenUri,
-        uint256 _tier,
-        uint256 _damage,
-        string memory _modsType,
-        uint256 _modsValue,
-        uint256 _modsValue2
-    ) public {
-        Item memory newItem = Item({
-            tokenUri: _tokenUri,
-            Tier: _tier,
-            Damage: _damage,
-            ModsType: _modsType,
-            ModsValue: _modsValue,
-            ModsValue2: _modsValue2
-        });
-
-        tokenMetaData[tokenId] = newItem;
-    }
 }

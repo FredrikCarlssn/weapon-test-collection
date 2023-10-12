@@ -1,0 +1,31 @@
+{
+    "name": "Makeshift Sword",
+    "description": "CRG NFT TEST COLLECTION 0x1",
+    "image": "ipfs://QmNnAQA2tQhFKJt81CrPKgVFHPxH9nFFTFCkFkQTWU5SyD",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "1h Sword"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Damage"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Potency"
+        },
+        {
+            "trait_type": "Damage",
+            "value": "Physical 2-6"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Min Damage (+)1-2, Max Damage (+)3-6"
+        }
+    ]
+}

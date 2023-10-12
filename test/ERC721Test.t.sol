@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract NFTTest is Test {
     string constant DEFAULT_URI =
-        "https://ipfs.io/ipfs/Qmf6NetjT2Pz4U8qFXQTSWVfmthkHGDdx1gp3ZUrDBmp1j?filename=0x0.JSON";
+        "https://ipfs.io/ipfs/Qmf6NetjT2Pz4U8qFXQTSWVfmthkHGDdx1gp3ZUrDBmp1j?filename=0.JSON";
     WeaponTestCollection weaponTestCollection;
 
     function setUp() public {
@@ -26,8 +26,8 @@ contract NFTTest is Test {
     }
 
     function testMintAndSuppply() public {
-        weaponTestCollection.mintNft{value: 1 ether}(msg.sender, DEFAULT_URI);
-        weaponTestCollection.mintNft{value: 1 ether}(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI);
+        weaponTestCollection.mintNft(msg.sender, DEFAULT_URI);
         uint256 supply = weaponTestCollection.totalSupply();
         assertEq(supply, 12);
     }
@@ -52,9 +52,6 @@ contract NFTTest is Test {
         string memory meta = DEFAULT_URI;
         string memory uri = weaponTestCollection.tokenURI(0);
         console.log("URI1: ", weaponTestCollection.tokenURI(0));
-        console.log("URI2: ", weaponTestCollection.tokenURI(1));
-        console.log("URI3: ", weaponTestCollection.tokenURI(2));
-        console.log("URI4: ", weaponTestCollection.tokenURI(3));
         assertEq(uri, meta);
     }
 

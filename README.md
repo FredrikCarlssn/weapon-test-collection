@@ -15,7 +15,6 @@ For all deployments to work you need to make an .env file with the following con
 > WEMIX_TESNET_PRIVATE_KEY = ""
 > WEMIX_MAIN_PRIVATE_KEY = ""
 > SEPOLIA_TESNET_PRIVATE_KEY = ""
-
 ## LIB
 
 It is built with OpenZeppelin library version 4.9.0; Make sure both "openzeppelin-contracts" and "forge-std" libraries are installed in lib folder!

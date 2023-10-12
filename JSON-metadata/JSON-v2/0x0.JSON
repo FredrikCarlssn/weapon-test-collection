@@ -1,0 +1,31 @@
+{
+    "name": "Stormbreaker Saber",
+    "description": "CRG NFT TEST COLLECTION 0x0",
+    "image": "ipfs://QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "1h Sword"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Precision"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Potency"
+        },
+        {
+            "trait_type": "Damage",
+            "value": "Physical 2-3"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Critical Hit Damage (+)15-25%"
+        }
+    ]
+}

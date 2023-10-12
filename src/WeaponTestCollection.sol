@@ -9,16 +9,9 @@ contract WeaponTestCollection is ERC721URIStorage, TestCollectionStorage {
     uint256 private s_tokenCounter = 0;
 
     constructor() ERC721("WeaponTestCollection", "WPNTST") {
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
-        mintNft(msg.sender, tokenURIs[s_tokenCounter]);
+        for (uint256 i; i < s_URILength; i++) {
+            mintNft(msg.sender, tokenURIs[i]);
+        }
     }
 
     function mintNft(

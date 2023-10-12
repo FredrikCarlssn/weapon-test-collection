@@ -1,0 +1,43 @@
+{
+    "name": "Hammer of the Mountain King",
+    "description": "CRG NFT TEST COLLECTION 0x3",
+    "image": "ipfs://QmRuRCynsKuNAjYXz5v4J8WRi1PM34hpAU2nNEY54C9Prj",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "2h Mace"
+        },
+        {
+            "trait_type": "Tier",
+            "value": 1
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Medium"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Potency"
+        },
+        {
+            "trait_type": "Range",
+            "value": 3
+        },
+        {
+            "trait_type": "Attack Speed",
+            "value": 0.75
+        },
+        {
+            "trait_type": "Damage",
+            "value": "Physical 4-8"
+        },
+        {
+            "trait_type": "Max Durability",
+            "value": "12-15"
+        },
+        {
+            "trait_type": "Mods",
+            "value": "Loot Rarity (+)75-100%"
+        }
+    ]
+}

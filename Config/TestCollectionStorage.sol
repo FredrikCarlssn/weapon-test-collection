@@ -8,34 +8,34 @@ contract TestCollectionStorage {
     constructor() {
         tokenURIs[
             0
-        ] = "https://ipfs.io/ipfs/Qmf6NetjT2Pz4U8qFXQTSWVfmthkHGDdx1gp3ZUrDBmp1j?filename=0.JSON";
+        ] = "https://ipfs.io/ipfs/Qmcj8MVSSUgPAW1YnkVynkV5keYKMjDbGLx4EWDHffrQMh?filename=0x0.JSON";
         tokenURIs[
             1
-        ] = "https://ipfs.io/ipfs/QmPYwdLj7mC1AzCiH9hYoxHRAUbrVNar8rxZ495dWbWwpr?filename=1.JSON";
+        ] = "https://ipfs.io/ipfs/QmeyxjNogKsNGA14P7djNMQu6Tk6i4BA6H2dPMDCQcZGso?filename=0x1.JSON";
         tokenURIs[
             2
-        ] = "https://ipfs.io/ipfs/QmVPtMNRFo3hJMGKmhxVwJfaGX7USmnVzRqiuzTUEFnhVs?filename=2.JSON";
+        ] = "https://ipfs.io/ipfs/QmehyM9PZq25p3Ss2XwY52fnCjpNa59BD2yTpaf5TbMFoq?filename=0x2.JSON";
         tokenURIs[
             3
-        ] = "https://ipfs.io/ipfs/QmTmyD2Yvo4m8Y3KPHwK26wQBhG6qJ8LmTB139hZ2wGaJE?filename=3.JSON";
+        ] = "https://ipfs.io/ipfs/QmeNaZeDbeyMKaQbLAczmNJVATPVGZ2vyMTT2KRM19aBYB?filename=0x3.JSON";
         tokenURIs[
             4
-        ] = "https://ipfs.io/ipfs/QmWLBVdKFrrgg2KLFfN8qstiif5ZJqhSKk8CQ1BUw8H1Qy?filename=4.JSON";
+        ] = "https://ipfs.io/ipfs/QmTC4BHDF6SpQPsgV98umRxkUYWRS2wUAKisdjY3bJ2QfN?filename=0x4.JSON";
         tokenURIs[
             5
-        ] = "https://ipfs.io/ipfs/QmQMiAKwqDeiwEB8Qk5MiZYkjsD349QmdisYYHLSA3xpjD?filename=5.JSON";
+        ] = "https://ipfs.io/ipfs/QmaBRthYaf5P8vnzRb7yBqUyJ32mbSM1X3y8aZ13vT2LAW?filename=0x5.JSON";
         tokenURIs[
             6
-        ] = "https://ipfs.io/ipfs/QmS9jyCnFaGYAwYKkEGkEexJc8Fuqt3epajZ9a5ZZdRzvu?filename=6.JSON";
+        ] = "https://ipfs.io/ipfs/QmZStJnqeMVSkiSPm1oqGe1QqLHEctTiJMcUPyToqtQiHn?filename=0x6.JSON";
         tokenURIs[
             7
-        ] = "https://ipfs.io/ipfs/QmP9Lei1DV2ciuGr9GmZftdn5wdrDzwF1p5JWy1J8GHrzM?filename=7.JSON";
+        ] = "https://ipfs.io/ipfs/QmP2cYNjQr9pjcfZfLpnGeo1aCRpZNeuCeEAssHLTDAURC?filename=0x7.JSON";
         tokenURIs[
             8
-        ] = "https://ipfs.io/ipfs/Qme1UCpiewT5mWzDcZKTcxkgWG4QRzPcAkHfzT76TXe7Fg?filename=8.JSON";
+        ] = "https://ipfs.io/ipfs/QmWvzWFLMH3gzf1eQEk3Q3PjNVH5aSTCV8dK6nAb19ecaN?filename=0x8.JSON";
         tokenURIs[
             9
-        ] = "https://ipfs.io/ipfs/QmdNZL3zUcwM5w72LudjRjBz2iQb7hZpphJVEGqf42HUWE?filename=9.JSON";
+        ] = "https://ipfs.io/ipfs/QmT8jnWGByzhs6ep4SFZXgLmgXYMi5HXqaRA5cVxwF98Rp?filename=0x9.JSON";
         s_URILength = 10; // s_URILength should equal totalSupply();
     }
 }

@@ -4,6 +4,8 @@ out = "out"
 libs = ["lib"]
 remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"]
 gas_reports = ["*"]
+[etherscan]
+sepolia = { key = "${ETHERSCAN__API_KEY}", name = "58008", url = "https://api-sepolia.etherscan.io/api" }
 
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

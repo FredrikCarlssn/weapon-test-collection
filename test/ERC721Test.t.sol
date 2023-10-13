@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract NFTTest is Test {
     string constant DEFAULT_URI =
-        "https://ipfs.io/ipfs/Qmcj8MVSSUgPAW1YnkVynkV5keYKMjDbGLx4EWDHffrQMh?filename=0x0.JSON";
+        "https://ipfs.io/ipfs/QmVUKSEnS13fAXqoMw1aZqKppN1NPrd1rjqJEfV9ANgQBi?filename=0x0.JSON";
     WeaponTestCollection weaponTestCollection;
 
     function setUp() public {

@@ -4,6 +4,8 @@ pragma solidity ^0.8.20;
 contract TestCollectionStorage {
     Item[] public s_tokenMetaDataArray;
 
+    string constant IPFS = "Ipfs%3A%2F%2F";
+
     struct Item {
         string IMG;
         string Name;
@@ -18,10 +20,43 @@ contract TestCollectionStorage {
         uint256 ModsValue2;
     }
 
+    function createMetadata(
+        string memory _IMG,
+        string memory _Name,
+        string memory _Description,
+        string memory _Type,
+        uint256 _Tier,
+        string memory _Theme,
+        string memory _Family,
+        uint256 _Damage,
+        string memory _ModsType,
+        uint256 _ModsValue,
+        uint256 _ModsValue2
+    ) private {
+        s_tokenMetaDataArray.push(
+            Item({
+                IMG: string.concat(IPFS, _IMG),
+                Name: _Name,
+                Description: _Description,
+                Type: _Type,
+                Tier: _Tier,
+                Theme: _Theme,
+                Family: _Family,
+                Damage: _Damage,
+                ModsType: _ModsType,
+                ModsValue: _ModsValue,
+                ModsValue2: _ModsValue2
+            })
+        );
+    }
+
     constructor() {
         s_tokenMetaDataArray.push(
             Item({
-                IMG: "Ipfs:${//}QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
+                IMG: string.concat(
+                    IPFS,
+                    "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG"
+                ),
                 Name: "Stormbreaker Saber",
                 Description: "NFT TEST COLLECTION 0x0",
                 Type: "1h Sword",

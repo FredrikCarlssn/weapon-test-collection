@@ -12,6 +12,7 @@ contract NFTTest is Test {
     WeaponTestCollection weaponTestCollection;
 
     function setUp() public {
+        vm.prank(msg.sender);
         weaponTestCollection = new WeaponTestCollection();
         weaponTestCollection.mintNft(msg.sender, 0);
     }

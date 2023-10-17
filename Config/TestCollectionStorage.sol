@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 contract TestCollectionStorage {
     Item[] public s_tokenMetaDataArray;
 
-    string constant IPFS = "Ipfs://";
+    string constant IPFS = "ipfs:%2f%2f";
 
     struct Item {
         string IMG;
@@ -35,7 +35,7 @@ contract TestCollectionStorage {
     ) private {
         s_tokenMetaDataArray.push(
             Item({
-                IMG: string.concat(IPFS, _IMG),
+                IMG: _IMG,
                 Name: _Name,
                 Description: _Description,
                 Type: _Type,
@@ -53,10 +53,7 @@ contract TestCollectionStorage {
     constructor() {
         s_tokenMetaDataArray.push(
             Item({
-                IMG: string.concat(
-                    IPFS,
-                    "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG"
-                ),
+                IMG: "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
                 Name: "Stormbreaker Saber",
                 Description: "NFT TEST COLLECTION 0x0",
                 Type: "1h Sword",

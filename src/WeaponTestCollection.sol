@@ -26,7 +26,7 @@ contract WeaponTestCollection is ERC721, TestCollectionStorage {
         uint256 tokenId = s_tokenCounter;
 
         _safeMint(_recipient, tokenId);
-        tokenIdToItem[tokenId] = s_tokenMetaDataArray[_metaDataNumber];
+        tokenIdToItem[tokenId] = s_metaData[_metaDataNumber];
         s_tokenCounter++;
     }
 

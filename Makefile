@@ -1,8 +1,14 @@
 -include .env
 
-.PHONY: localDeploy WemixTestDeploy WemixMainDeploy SepoliaTestDeploy
+.PHONY: localDeploy WemixTestDeploy WemixMainDeploy SepoliaTestDeploy test vTest
 
 DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+test:
+	@forge test -vv --gas-report
+
+vTest:
+	@forge test -vvvv --gas-report
 
 localDeploy: 
 	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast

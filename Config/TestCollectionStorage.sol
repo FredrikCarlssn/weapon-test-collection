@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 contract TestCollectionStorage {
     Item[] public s_tokenMetaDataArray;
 
-    string constant IPFS = "Ipfs%3A%2F%2F";
+    string constant IPFS = "Ipfs://";
 
     struct Item {
         string IMG;

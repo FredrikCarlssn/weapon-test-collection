@@ -4,20 +4,20 @@ pragma solidity ^0.8.20;
 import {WeaponTestCollection} from "../src/WeaponTestCollection.sol";
 import {Vm} from "forge-std/Vm.sol";
 import "forge-std/Test.sol";
-import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract NFTTest is Test {
-    WeaponTestCollection weaponTestCollection;
-
     string constant DEFAULT_URI =
-        'data:application/json,{"Name": "","Description": "","attributes": ["image": "","Type": "","Tier": 0,"Theme": "","Family": "","Damage": 0,"ModsType": "","ModsValue": 0,"ModsValue2": 0}';
+        "data:application/json;base64,eyJuYW1lIjogIlN0b3JtYnJlYWtlciBTYWJlciIsImRlc2NyaXB0aW9uIjogIk5GVCBURVNUIENPTExFQ1RJT04gMHgwIiwiaW1hZ2UiOiAiSXBmczpcL1wvUW1kWXJLNW9kSkVHSzJZRUVLWWNxNFZjUXFGaUd5WkVTNWhyUGRIWVNoUEJwRyIsImF0dHJpYnV0ZXMiOiBbeyJ0cmFpdF90eXBlIjogIlR5cGUiLCJ2YWx1ZSI6ICIxaCBTd29yZCJ9LHsidHJhaXRfdHlwZSI6ICJUaWVyIiwidmFsdWUiOiA0fSx7InRyYWl0X3R5cGUiOiAiVGhlbWUiLCJ2YWx1ZSI6ICJQcmVjaXNpb24ifSx7InRyYWl0X3R5cGUiOiAiRmFtaWx5IiwidmFsdWUiOiAiUG90ZW5jeSJ9LHsidHJhaXRfdHlwZSI6ICJEYW1hZ2UiLCJ2YWx1ZSI6IDJ9LHsidHJhaXRfdHlwZSI6ICJNb2RzVHlwZSIsInZhbHVlIjogIkNyaXRpY2FsIEhpdCBEYW1hZ2UifSx7InRyYWl0X3R5cGUiOiAiTW9kc1ZhbHVlIiwidmFsdWUiOiAxNX0seyJ0cmFpdF90eXBlIjogIk1vZHNWYWx1ZTIiLCJ2YWx1ZSI6IDB9XX0=";
+    WeaponTestCollection weaponTestCollection;
 
     function setUp() public {
         weaponTestCollection = new WeaponTestCollection();
+        weaponTestCollection.mintNft(msg.sender, 0);
     }
 
     function testUri() public {
-        string memory uri = weaponTestCollection.uri(0);
+        string memory uri = weaponTestCollection.tokenURI(0);
         console.log(uri);
         assertEq(uri, DEFAULT_URI);
     }
@@ -25,13 +25,12 @@ contract NFTTest is Test {
     function testMint() public {
         weaponTestCollection.mintNft(msg.sender, 0);
         uint256 supply = weaponTestCollection.totalSupply();
-        assertEq(supply, 1);
+        assertEq(supply, 2);
     }
 
     function testOwner() public {
-        weaponTestCollection.mintNft(msg.sender, 0);
-        uint256 shouldBeOne = weaponTestCollection.balanceOf(msg.sender, 0);
-        assertEq(shouldBeOne, 1);
+        address shouldBeSender = weaponTestCollection.ownerOf(0);
+        assertEq(shouldBeSender, msg.sender);
     }
 
     function testBatchMint() public {
@@ -59,9 +58,7 @@ contract NFTTest is Test {
         weaponTestCollection.mintNft(msg.sender, 0);
         weaponTestCollection.mintNft(msg.sender, 0);
         weaponTestCollection.mintNft(msg.sender, 0);
-        weaponTestCollection.mintNft(msg.sender, 0);
-        uint256 supply = weaponTestCollection.totalSupply();
-        assertEq(supply, 25);
+        assertEq(weaponTestCollection.totalSupply(), 25);
     }
 
     // function testFailMintNoPaid() public {

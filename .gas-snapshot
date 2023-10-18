@@ -1,0 +1,4 @@
+NFTTest:testBatchMint() (gas: 7241656)
+NFTTest:testMint() (gas: 341164)
+NFTTest:testOwner() (gas: 7909)
+NFTTest:testUri() (gas: 103850)

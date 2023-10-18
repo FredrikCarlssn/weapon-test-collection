@@ -3,20 +3,15 @@ pragma solidity ^0.8.20;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
-import {JsonWriter} from "@solidity-json-writer/contracts/JsonWriter.sol";
 import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract WeaponTestCollection is ERC721, TestCollectionStorage {
-    using JsonWriter for JsonWriter.Json;
-
     uint256 private s_tokenCounter = 0;
     string private s_baseURI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
     mapping(uint256 => Item) public tokenIdToItem;
-
-    // mapping(uint256 tokenId => address) private owners;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);

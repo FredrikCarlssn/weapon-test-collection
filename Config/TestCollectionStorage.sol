@@ -3,9 +3,12 @@ pragma solidity ^0.8.20;
 
 contract TestCollectionStorage {
     uint256 s_metaCounter;
-    mapping(uint256 => Item) public s_metaData;
+    uint256 s_modsCounter;
+    mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
+    mapping(uint256 => ItemDynamics) public numberToDynamicMetaData;
+    mapping(uint256 => string) public numberToModsType;
 
-    struct Item {
+    struct ItemConstants {
         string IMG;
         string Name;
         string Description;
@@ -14,9 +17,12 @@ contract TestCollectionStorage {
         string Theme;
         string Family;
         uint256 Damage;
-        string ModsType;
-        uint256 ModsValue;
-        uint256 ModsValue2;
+    }
+
+    struct ItemDynamics {
+        uint8 ModsType;
+        uint8 ModsValue;
+        uint8 ModsValue2;
     }
 
     function createMetadata(
@@ -28,12 +34,12 @@ contract TestCollectionStorage {
         string memory _Theme,
         string memory _Family,
         uint256 _Damage,
-        string memory _ModsType,
-        uint256 _ModsValue,
-        uint256 _ModsValue2
+        uint8 _ModsType,
+        uint8 _ModsValue,
+        uint8 _ModsValue2
     ) private {
-        s_metaData[s_metaCounter] = (
-            Item({
+        numberToDefaultMetaData[s_metaCounter] = (
+            ItemConstants({
                 IMG: _IMG,
                 Name: _Name,
                 Description: _Description,
@@ -41,16 +47,31 @@ contract TestCollectionStorage {
                 Tier: _Tier,
                 Theme: _Theme,
                 Family: _Family,
-                Damage: _Damage,
+                Damage: _Damage
+            })
+        );
+
+        numberToDynamicMetaData[s_metaCounter] = (
+            ItemDynamics({
                 ModsType: _ModsType,
                 ModsValue: _ModsValue,
                 ModsValue2: _ModsValue2
             })
         );
+
         s_metaCounter++;
     }
 
+    function createMod(string memory) private {
+        numberToModsType[s_modsCounter] = "Critical Hit Damage";
+        s_modsCounter++;
+    }
+
     constructor() {
+        //Mods types
+        createMod("Critical Hit Damage");
+
+        //DEFAULT METE DATA FOR ITEMS
         createMetadata(
             "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
             "Stormbreaker Saber",
@@ -60,99 +81,9 @@ contract TestCollectionStorage {
             "Precision",
             "Potency",
             2,
-            "Critical Hit Damage",
+            0,
             15,
             0
         );
     }
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmYkyf851KWmQhF4DeGjs6uoNtonM7JmkmRh8wFXxR8vZa?filename=0x1.JSON",
-    //         4,
-    //         6,
-    //         "Min Damage & Max Damage",
-    //         2,
-    //         6
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmZZ8si5MPD6MaT1FrbeqKcg7wtioJScsPQFU3wt3pTP3b?filename=0x2.JSON",
-    //         4,
-    //         5,
-    //         "Bleed Chance",
-    //         2,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmNakfRkvfPgUxs7n3QYAfu5iTPx6radifhe6ADvSpFNTw?filename=0x3.JSON",
-    //         4,
-    //         8,
-    //         "Loot Rarity",
-    //         75,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmRjEjz2NaT5SsSsrbvApGnLs3ZPD4VCVgYMhik1XuMSUA?filename=0x4.JSON",
-    //         4,
-    //         9,
-    //         "Critical Hit Damage",
-    //         25,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmUvu2GQ1GcHsPqNjKbraWcs1TTZJtdWfBuuEHKM1iVScG?filename=0x5.JSON",
-    //         4,
-    //         20,
-    //         "Stun Chance",
-    //         25,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmUN1mAsZJBfRnGMtZ7REtS3VYqzCJLogxn9DJYq7jYg9e?filename=0x6.JSON",
-    //         4,
-    //         0,
-    //         "Brilliance",
-    //         5,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmPMEgoXzj7mFSyN4HxxAJhLLuz6wd7YjGRenMfM7JTbow?filename=0x7.JSON",
-    //         4,
-    //         0,
-    //         "Max Life",
-    //         20,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmYC3Hjc3vHPyiVY7kntb5e6yrMo5wruy1wTAhP1E4CVCc?filename=0x8.JSON",
-    //         4,
-    //         0,
-    //         "Critical Hit Chance",
-    //         10,
-    //         0
-    //     )
-    // );
-    // tokenMetaData.push(
-    //     Item(
-    //         "https://ipfs.io/ipfs/QmdZGWu8ddcnJjgzoq2nzyaoq1WCvDbjD64DjyAw57kk9M?filename=0x9.JSON",
-    //         4,
-    //         0,
-    //         "Max Aether",
-    //         20,
-    //         0
-    //     )
-    // );
 }

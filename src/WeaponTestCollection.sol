@@ -7,57 +7,63 @@ import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract WeaponTestCollection is ERC721, TestCollectionStorage {
-    uint256 private s_tokenCounter = 0;
+    uint24 private s_tokenCounter = 0;
     string private s_baseURI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
-    mapping(uint256 => Item) public tokenIdToItem;
+    mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
+    mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
     }
 
-    function mintNft(address _recipient, uint256 _metaDataNumber) public {
-        uint256 tokenId = s_tokenCounter;
-
+    function mintNft(address _recipient, uint8 _metaDataNumber) public {
+        uint24 tokenId = s_tokenCounter;
         _safeMint(_recipient, tokenId);
-        tokenIdToItem[tokenId] = s_metaData[_metaDataNumber];
+        tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
+        tokenIdToItemDynamics[tokenId] = numberToDynamicMetaData[
+            _metaDataNumber
+        ];
         s_tokenCounter++;
     }
 
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
-        Item memory tokenItem = tokenIdToItem[_tokenId];
+        ItemConstants memory itemConstants = numberToDefaultMetaData[
+            tokenIdToItemConstantsNumber[_tokenId]
+        ];
+        ItemDynamics memory itemDynamics = tokenIdToItemDynamics[_tokenId];
 
         bytes memory part1 = abi.encodePacked(
-            tokenItem.IMG,
+            itemConstants.IMG,
             '", ',
             '"name": "',
-            tokenItem.Name,
+            itemConstants.Name,
             '", ',
             '"description": "',
-            tokenItem.Description,
+            itemConstants.Description,
             '", ',
             '"attributes": [{"trait_type": "Type", "value": "',
-            tokenItem.Type,
+            itemConstants.Type,
             '"}, {"trait_type": "Tier", "value": ',
-            Strings.toString(tokenItem.Tier),
+            Strings.toString(itemConstants.Tier),
             '}, {"trait_type": "Theme", "value": "'
         );
 
         bytes memory part2 = abi.encodePacked(
-            tokenItem.Theme,
+            itemConstants.Theme,
             '"}, {"trait_type": "Family", "value": "',
-            tokenItem.Family,
+            itemConstants.Family,
             '"}, {"trait_type": "Damage", "value": ',
-            Strings.toString(tokenItem.Damage),
+            Strings.toString(itemConstants.Damage),
             '}, {"trait_type": "ModsType", "value": "',
-            tokenItem.ModsType,
+            numberToModsType[itemDynamics.ModsType],
             '"}, {"trait_type": "ModsValue", "value": ',
-            Strings.toString(tokenItem.ModsValue),
+            Strings.toString(itemDynamics.ModsValue),
             '}, {"trait_type": "ModsValue2", "value": ',
-            Strings.toString(tokenItem.ModsValue2),
+            Strings.toString(itemDynamics.ModsValue2),
             "}]}"
         );
 

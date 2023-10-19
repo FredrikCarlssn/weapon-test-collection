@@ -15,16 +15,7 @@ contract WeaponTestCollection is ERC721, TestCollectionStorage {
     mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
 
     constructor() ERC721("NEW", "NWE") {
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
-        mintNft(msg.sender, 0);
+        // mintNft(msg.sender, 0);
     }
 
     function mintNft(address _recipient, uint8 _metaDataNumber) public {

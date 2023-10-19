@@ -17,7 +17,9 @@ For all deployments to work you need to make an .env file with the following con
 > WEMIX_TESTNET_PRIVATE_KEY=""
 > WEMIX_MAIN_PRIVATE_KEY=""
 > SEPOLIA_TESTNET_PRIVATE_KEY=""
+> MUMBAI_TESTNET_PRIVATE_KEY=""
 > ETHERSCAN_API_KEY=""
+> POLYGONSCAN_API_KEY=""
 
 ## LIB
 

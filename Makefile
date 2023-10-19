@@ -20,4 +20,7 @@ WemixMainDeploy:
 	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url https://api.wemix.com/ --private-key $(WEMIX_MAIN_PRIVATE_KEY) --broadcast --legacy
 
 SepoliaTestDeploy:
-	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url https://eth-sepolia-public.unifra.io --private-key $(SEPOLIA_TESTNET_PRIVATE_KEY) --broadcast --gas-limit 10000000000  --etherscan-api-key ${ETHERSCAN_API_KEY} --verify
+	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url https://eth-sepolia-public.unifra.io --private-key $(SEPOLIA_TESTNET_PRIVATE_KEY) --broadcast  --etherscan-api-key ${ETHERSCAN_API_KEY} --verify
+
+MumbaiTestDeploy:
+	@forge script script/DeployTestCollection.s.sol:DeployTestCollection --rpc-url https://polygon-mumbai-bor.publicnode.com --private-key $(MUMBAI_TESTNET_PRIVATE_KEY) --broadcast  --etherscan-api-key ${POLYGONSCAN_API_KEY} --verify

@@ -70,6 +70,8 @@ contract TestCollectionStorage {
     constructor() {
         //Mods types
         createMod("Critical Hit Damage");
+        createMod("MinMaxDamage");
+        createMod("Bleed Chance");
 
         //DEFAULT METE DATA FOR ITEMS
         createMetadata(
@@ -85,5 +87,32 @@ contract TestCollectionStorage {
             15,
             0
         );
+                createMetadata(
+            "QmNnAQA2tQhFKJt81CrPKgVFHPxH9nFFTFCkFkQTWU5SyD",
+            "Makeshift Sword",
+            "NFT TEST COLLECTION 0x1",
+            "1h Sword",
+            4,
+            "Damage",
+            "Potency",
+            6,
+            1,
+            2,
+            6
+        );
+                        createMetadata(
+            "QmUNWpjD9xKqKk9FqsXPQRFHrB7Wq6bKYFfm2ktxQ7QfBi",
+            "Bow of the Frostbound Huntress",
+            "NFT TEST COLLECTION 0x2",
+            "Bow",
+            4,
+            "Attack Speed",
+            "Potency",
+            5,
+            3,
+            25,
+            0
+        );
     }
 }
+

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 contract TestCollectionStorage {
-    uint256 s_metaCounter;
+    uint8 s_metaCounter;
     uint256 s_modsCounter;
     mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
     mapping(uint256 => ItemDynamics) public numberToDynamicMetaData;

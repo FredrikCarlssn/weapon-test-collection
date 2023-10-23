@@ -42,6 +42,12 @@ contract WeaponTestCollection is
         _safeMint(_recipient, tokenId);
     }
 
+    function mintMultipleNFTs(uint256 numNFTs) public {
+        for (uint256 i = 0; i < numNFTs; i++) {
+            mintNft(msg.sender, getRandomNumber(10));
+        }
+    }
+
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
@@ -88,6 +94,21 @@ contract WeaponTestCollection is
                     Base64.encode(bytes(abi.encodePacked(part1, part2)))
                 )
             );
+    }
+
+    function getRandomNumber(uint8 _maxNumber) internal view returns (uint8) {
+        uint256 seed = block.timestamp;
+        uint256 randomNumber = uint256(
+            keccak256(
+                abi.encodePacked(
+                    seed,
+                    blockhash(block.number - 1),
+                    block.timestamp,
+                    msg.sender
+                )
+            )
+        ) % _maxNumber;
+        return uint8(randomNumber);
     }
 
     function totalSupply() public view returns (uint256) {

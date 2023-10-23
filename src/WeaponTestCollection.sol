@@ -2,30 +2,44 @@
 pragma solidity ^0.8.20;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 
-contract WeaponTestCollection is ERC721, TestCollectionStorage {
-    uint24 private s_tokenCounter = 0;
+contract WeaponTestCollection is
+    ERC721,
+    TestCollectionStorage,
+    ReentrancyGuard
+{
+    uint24 private s_tokenCounter;
     string private s_baseURI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
     mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
 
+    error InvalidMetadataNumber(uint8 _metaDataNumber);
+    error InvalidAdress(address _address);
+
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
     }
 
-    function mintNft(address _recipient, uint8 _metaDataNumber) public {
-        uint24 tokenId = s_tokenCounter;
-        _safeMint(_recipient, tokenId);
+    function mintNft(
+        address _recipient,
+        uint8 _metaDataNumber
+    ) public nonReentrant onlyOwner {
+        if (_metaDataNumber > s_metaCounter)
+            revert InvalidMetadataNumber(_metaDataNumber);
+        if (_recipient == address(0)) revert InvalidAdress(_recipient);
+        uint24 tokenId = s_tokenCounter++;
         tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
         tokenIdToItemDynamics[tokenId] = numberToDynamicMetaData[
             _metaDataNumber
         ];
-        s_tokenCounter++;
+
+        _safeMint(_recipient, tokenId);
     }
 
     function mintMultipleNFTs(uint256 numNFTs) public {

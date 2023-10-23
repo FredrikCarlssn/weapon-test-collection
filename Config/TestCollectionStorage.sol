@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract TestCollectionStorage {
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+contract TestCollectionStorage is Ownable {
     uint8 s_metaCounter;
     uint256 s_modsCounter;
     mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
@@ -37,7 +39,7 @@ contract TestCollectionStorage {
         uint8 _ModsType,
         uint8 _ModsValue,
         uint8 _ModsValue2
-    ) private {
+    ) private onlyOwner {
         numberToDefaultMetaData[s_metaCounter] = (
             ItemConstants({
                 IMG: _IMG,
@@ -62,12 +64,12 @@ contract TestCollectionStorage {
         s_metaCounter++;
     }
 
-    function createMod(string memory) private {
+    function createMod(string memory) private onlyOwner {
         numberToModsType[s_modsCounter] = "Critical Hit Damage";
         s_modsCounter++;
     }
 
-    constructor() {
+    constructor() Ownable(msg.sender) {
         //Mods types
         createMod("Critical Hit Damage");
 

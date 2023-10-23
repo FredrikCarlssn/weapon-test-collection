@@ -62,25 +62,25 @@ contract TestCollectionStorage {
         s_metaCounter++;
     }
 
-    function createMod(string memory) private {
-        numberToModsType[s_modsCounter] = "Critical Hit Damage";
+    function createMod(string memory _modsType) private {
+        numberToModsType[s_modsCounter] = _modsType;
         s_modsCounter++;
     }
 
     constructor() {
         //Mods types
-        createMod("Critical Hit Damage"); // 1
-        createMod("MinMaxDamage"); // 2
-        createMod("Bleed Chance"); // 3
-        createMod("Loot Rarity"); // 4
-        createMod("Stun Chance"); // 5
-        createMod("Brilliance"); // 6
-        createMod("Max Life"); // 7
-        createMod("Critical Hit Chance"); // 8
-        createMod("Max Aether"); // 9
+        createMod("Critical Hit Damage"); // 0
+        createMod("MinMaxDamage"); // 1
+        createMod("Bleed Chance"); // 2
+        createMod("Loot Rarity"); // 3
+        createMod("Stun Chance"); // 4
+        createMod("Brilliance"); // 5
+        createMod("Max Life"); // 6
+        createMod("Critical Hit Chance"); // 7
+        createMod("Max Aether"); // 8
 
         //DEFAULT METE DATA FOR ITEMS
-             createMetadata(
+        createMetadata(
             "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
             "Stormbreaker Saber",
             "NFT TEST COLLECTION 0x0",
@@ -93,7 +93,7 @@ contract TestCollectionStorage {
             15,
             0
         );
-             createMetadata(
+        createMetadata(
             "QmNnAQA2tQhFKJt81CrPKgVFHPxH9nFFTFCkFkQTWU5SyD",
             "Makeshift Sword",
             "NFT TEST COLLECTION 0x1",
@@ -102,11 +102,11 @@ contract TestCollectionStorage {
             "Damage",
             "Potency",
             6,
-            1,
+            0,
             2,
             6
         );
-              createMetadata(
+        createMetadata(
             "QmUNWpjD9xKqKk9FqsXPQRFHrB7Wq6bKYFfm2ktxQ7QfBi",
             "Bow of the Frostbound Huntress",
             "NFT TEST COLLECTION 0x2",
@@ -115,11 +115,11 @@ contract TestCollectionStorage {
             "Attack Speed",
             "Potency",
             5,
-            3,
+            2,
             25,
             0
         );
-             createMetadata(
+        createMetadata(
             "QmZEEv3CC6JJBhVxrbsqvR33u2D3KAES9DaGCySf7tbx2p",
             "Hammer of the Mountain King",
             "NFT TEST COLLECTION 0x3",
@@ -128,11 +128,11 @@ contract TestCollectionStorage {
             "Medium",
             "Potency",
             8,
-            4,
+            3,
             75,
             0
         );
-              createMetadata(
+        createMetadata(
             "QmNkwVEd4q7Juwz9ZwMhAZ62Wwu5RPNuYGFeEs3PDrUXJx",
             "Blade of the Eternal Moon",
             "NFT TEST COLLECTION 0x4",
@@ -141,11 +141,11 @@ contract TestCollectionStorage {
             "Precision",
             "Potency",
             9,
-            1,
+            0,
             25,
             0
         );
-             createMetadata(
+        createMetadata(
             "QmTKxK6mTYKJTYmmisyerUZeQ9AwfN2kFqULMdegT36EDA",
             "Scepter of the Phoenix Flame",
             "NFT TEST COLLECTION 0x5",
@@ -154,11 +154,11 @@ contract TestCollectionStorage {
             "Damage",
             "Potency",
             20,
-            5,
+            4,
             25,
             0
         );
-             createMetadata(
+        createMetadata(
             "QmctLSryJBYwx3M6gNnUMHzsk5bTspbM5FpyeZYtAztRVy",
             "Dragons Heart Amulet",
             "NFT TEST COLLECTION 0x6",
@@ -167,11 +167,11 @@ contract TestCollectionStorage {
             "Attack Speed",
             "Brilliance",
             0,
-            6,
+            5,
             5,
             0
         );
-                     createMetadata(
+        createMetadata(
             "QmfKRrHRmQV5Vk63Nc98Ltnm1QNxJG1P9yb7ebZuYWBxAS",
             "Luminara's Locket",
             "NFT TEST COLLECTION 0x7",
@@ -180,11 +180,11 @@ contract TestCollectionStorage {
             "Medium",
             "Potency",
             0,
-            7,
+            6,
             20,
             0
         );
-                             createMetadata(
+        createMetadata(
             "QmZTbefAadmcSMW45QW5AqgiQrpa65maLVrTCcSgVomcf8",
             "Tidecaller's Talisman",
             "NFT TEST COLLECTION 0x8",
@@ -193,11 +193,11 @@ contract TestCollectionStorage {
             "Precision",
             "Resolve",
             0,
-            8,
+            7,
             10,
             0
         );
-                             createMetadata(
+        createMetadata(
             "Qmf3dCGwTKJm2WWKfSmDZuPkW4fLWgqcKKu7YqvMThY3PJ",
             "Veil of the Phantom",
             "NFT TEST COLLECTION 0x9",
@@ -206,10 +206,9 @@ contract TestCollectionStorage {
             "Damage",
             "Resilience",
             0,
-            9,
+            8,
             20,
             0
         );
     }
 }
-

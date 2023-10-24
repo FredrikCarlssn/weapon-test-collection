@@ -5,6 +5,7 @@ import {WeaponTestCollection} from "../src/WeaponTestCollection.sol";
 import {Vm} from "forge-std/Vm.sol";
 import "forge-std/Test.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {TestCollectionStorage} from "../Config/TestCollectionStorage.sol";
 
 contract NFTTest is Test {
     string constant DEFAULT_URI =
@@ -82,6 +83,17 @@ contract NFTTest is Test {
             weaponTestCollection.getMetaDataLength(),
             metaDataLengthShouldBe
         );
+    }
+
+    function testCreateMod() public {
+        uint256 modLengthShouldBe = (weaponTestCollection.getModLength() + 1);
+        vm.prank(msg.sender);
+        weaponTestCollection.createMod("Critical Hit Damage");
+        assertEq(weaponTestCollection.getModLength(), modLengthShouldBe);
+        string memory modShouldBe = weaponTestCollection.numberToModsType(
+            weaponTestCollection.getModLength()
+        );
+        assertEq(modShouldBe, "Critical Hit Damage");
     }
 
     receive() external payable {}

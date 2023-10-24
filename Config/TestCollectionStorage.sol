@@ -64,13 +64,17 @@ contract TestCollectionStorage is Ownable {
         s_metaCounter++;
     }
 
-    function createMod(string memory _modsType) private {
+    function createMod(string memory _modsType) public onlyOwner {
         numberToModsType[s_modsCounter] = _modsType;
         s_modsCounter++;
     }
 
     function getMetaDataLength() public view returns (uint8) {
         return (s_metaCounter - 1);
+    }
+
+    function getModLength() public view returns (uint256) {
+        return (s_modsCounter - 1);
     }
 
     constructor() Ownable(msg.sender) {

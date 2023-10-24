@@ -7,6 +7,9 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 
+error InvalidMetadataNumber(uint8 _metaDataNumber);
+error InvalidAdress(address _address);
+
 contract WeaponTestCollection is
     ERC721,
     TestCollectionStorage,
@@ -19,9 +22,6 @@ contract WeaponTestCollection is
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
     mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
 
-    error InvalidMetadataNumber(uint8 _metaDataNumber);
-    error InvalidAdress(address _address);
-
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
     }
@@ -30,7 +30,8 @@ contract WeaponTestCollection is
         address _recipient,
         uint8 _metaDataNumber
     ) public nonReentrant onlyOwner {
-        if (_metaDataNumber > s_metaCounter)
+        uint8 metaDataLenth = getMetaDataLength();
+        if (_metaDataNumber > metaDataLenth)
             revert InvalidMetadataNumber(_metaDataNumber);
         if (_recipient == address(0)) revert InvalidAdress(_recipient);
         uint24 tokenId = s_tokenCounter++;
@@ -56,26 +57,42 @@ contract WeaponTestCollection is
         ];
         ItemDynamics memory itemDynamics = tokenIdToItemDynamics[_tokenId];
 
-        bytes memory part1 = abi.encodePacked(
+        (bytes memory part1, bytes memory part2) = constructAttributes(
+            itemConstants,
+            itemDynamics
+        );
+
+        return
+            string(
+                abi.encodePacked(
+                    s_baseURI,
+                    Base64.encode(bytes(abi.encodePacked(part1, part2)))
+                )
+            );
+    }
+
+    function constructAttributes(
+        ItemConstants memory itemConstants,
+        ItemDynamics memory itemDynamics
+    ) internal view returns (bytes memory part1, bytes memory part2) {
+        part1 = abi.encodePacked(
             itemConstants.IMG,
             '", ',
             '"name": "',
             itemConstants.Name,
-            '", ',
-            '"description": "',
+            '", "description": "',
             itemConstants.Description,
-            '", ',
-            '"attributes": [{"trait_type": "Type", "value": "',
+            '", "attributes": ',
+            '[{"trait_type": "Type", "value": "',
             itemConstants.Type,
             '"}, {"trait_type": "Tier", "value": ',
             Strings.toString(itemConstants.Tier),
-            '}, {"trait_type": "Theme", "value": "'
-        );
-
-        bytes memory part2 = abi.encodePacked(
+            '}, {"trait_type": "Theme", "value": "',
             itemConstants.Theme,
             '"}, {"trait_type": "Family", "value": "',
-            itemConstants.Family,
+            itemConstants.Family
+        );
+        part2 = abi.encodePacked(
             '"}, {"trait_type": "Damage", "value": ',
             Strings.toString(itemConstants.Damage),
             '}, {"trait_type": "ModsType", "value": "',
@@ -86,14 +103,6 @@ contract WeaponTestCollection is
             Strings.toString(itemDynamics.ModsValue2),
             "}]}"
         );
-
-        return
-            string(
-                abi.encodePacked(
-                    s_baseURI,
-                    Base64.encode(bytes(abi.encodePacked(part1, part2)))
-                )
-            );
     }
 
     function getRandomNumber(uint8 _maxNumber) internal view returns (uint8) {

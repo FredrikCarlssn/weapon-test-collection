@@ -4,8 +4,8 @@ pragma solidity ^0.8.20;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TestCollectionStorage is Ownable {
-    uint8 s_metaCounter;
-    uint256 s_modsCounter;
+    uint8 private s_metaCounter;
+    uint256 private s_modsCounter;
     mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
     mapping(uint256 => ItemDynamics) public numberToDynamicMetaData;
     mapping(uint256 => string) public numberToModsType;
@@ -39,7 +39,7 @@ contract TestCollectionStorage is Ownable {
         uint8 _ModsType,
         uint8 _ModsValue,
         uint8 _ModsValue2
-    ) private onlyOwner {
+    ) public onlyOwner {
         numberToDefaultMetaData[s_metaCounter] = (
             ItemConstants({
                 IMG: _IMG,
@@ -64,10 +64,17 @@ contract TestCollectionStorage is Ownable {
         s_metaCounter++;
     }
 
-
-    function createMod(string memory _modsType) private {
+    function createMod(string memory _modsType) public onlyOwner {
         numberToModsType[s_modsCounter] = _modsType;
         s_modsCounter++;
+    }
+
+    function getMetaDataLength() public view returns (uint8) {
+        return (s_metaCounter - 1);
+    }
+
+    function getModLength() public view returns (uint256) {
+        return (s_modsCounter - 1);
     }
 
     constructor() Ownable(msg.sender) {
@@ -82,7 +89,7 @@ contract TestCollectionStorage is Ownable {
         createMod("Critical Hit Chance"); // 7
         createMod("Max Aether"); // 8
 
-        //DEFAULT METE DATA FOR ITEMS
+        //DEFAULT META DATA FOR ITEMS
         createMetadata(
             "QmdYrK5odJEGK2YEEKYcq4VcQqFiGyZES5hrPdHYShPBpG",
             "Stormbreaker Saber",

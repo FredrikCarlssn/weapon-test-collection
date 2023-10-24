@@ -5,6 +5,7 @@ import {WeaponTestCollection} from "../src/WeaponTestCollection.sol";
 import {Vm} from "forge-std/Vm.sol";
 import "forge-std/Test.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {TestCollectionStorage} from "../Config/TestCollectionStorage.sol";
 
 contract NFTTest is Test {
     string constant DEFAULT_URI =
@@ -18,6 +19,7 @@ contract NFTTest is Test {
         weaponTestCollection.mintNft(msg.sender, 0);
     }
 
+    // WeaponTestCollection.sol Tests
     function testUri() public {
         string memory uri = weaponTestCollection.tokenURI(0);
         assertEq(uri, DEFAULT_URI);
@@ -36,11 +38,62 @@ contract NFTTest is Test {
     }
 
     function testBatchMint() public {
-        for (uint256 i = 0; i < 99; i++) {
-            vm.prank(msg.sender);
-            weaponTestCollection.mintNft(msg.sender, 0);
-        }
+        vm.prank(msg.sender);
+        weaponTestCollection.mintMultipleNFTs(99);
         assertEq(weaponTestCollection.totalSupply(), 100);
+    }
+
+    function testInvalidMetadtaNumber() public {
+        uint8 invalidMetaDataLength = (weaponTestCollection
+            .getMetaDataLength() + 1);
+        bytes4 selector = bytes4(keccak256("InvalidMetadataNumber(uint8)"));
+        vm.prank(msg.sender);
+        vm.expectRevert(
+            abi.encodeWithSelector(selector, invalidMetaDataLength)
+        );
+        weaponTestCollection.mintNft(msg.sender, invalidMetaDataLength);
+    }
+
+    function testInvalidRecipient() public {
+        bytes4 selector = bytes4(keccak256("InvalidAdress(address)"));
+        vm.prank(msg.sender);
+        vm.expectRevert(abi.encodeWithSelector(selector, address(0)));
+        weaponTestCollection.mintNft(address(0), 0);
+    }
+
+    // TestCollectionStorage.sol Tests
+    function testCreateMetadata() public {
+        uint256 metaDataLengthShouldBe = (weaponTestCollection
+            .getMetaDataLength() + 1);
+        vm.prank(msg.sender);
+        weaponTestCollection.createMetadata(
+            "1h Sword",
+            "Sword",
+            "NFT TEST COLLECTION",
+            "Weapon",
+            1,
+            "Crystal",
+            "Crystal",
+            15,
+            1,
+            1,
+            1
+        );
+        assertEq(
+            weaponTestCollection.getMetaDataLength(),
+            metaDataLengthShouldBe
+        );
+    }
+
+    function testCreateMod() public {
+        uint256 modLengthShouldBe = (weaponTestCollection.getModLength() + 1);
+        vm.prank(msg.sender);
+        weaponTestCollection.createMod("Critical Hit Damage");
+        assertEq(weaponTestCollection.getModLength(), modLengthShouldBe);
+        string memory modShouldBe = weaponTestCollection.numberToModsType(
+            weaponTestCollection.getModLength()
+        );
+        assertEq(modShouldBe, "Critical Hit Damage");
     }
 
     receive() external payable {}

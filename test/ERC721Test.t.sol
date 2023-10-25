@@ -8,6 +8,16 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {TestCollectionStorage} from "../Config/TestCollectionStorage.sol";
 
 contract NFTTest is Test {
+    uint256 conter0 = 0;
+    uint256 conter1 = 0;
+    uint256 conter2 = 0;
+    uint256 conter3 = 0;
+    uint256 conter4 = 0;
+    uint256 conter5 = 0;
+    uint256 conter6 = 0;
+    uint256 conter7 = 0;
+    uint256 conter8 = 0;
+    uint256 conter9 = 0;
     string constant DEFAULT_URI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8vUW1kWXJLNW9kSkVHSzJZRUVLWWNxNFZjUXFGaUd5WkVTNWhyUGRIWVNoUEJwRyIsICJuYW1lIjogIlN0b3JtYnJlYWtlciBTYWJlciIsICJkZXNjcmlwdGlvbiI6ICJORlQgVEVTVCBDT0xMRUNUSU9OIDB4MCIsICJhdHRyaWJ1dGVzIjogW3sidHJhaXRfdHlwZSI6ICJUeXBlIiwgInZhbHVlIjogIjFoIFN3b3JkIn0sIHsidHJhaXRfdHlwZSI6ICJUaWVyIiwgInZhbHVlIjogNH0sIHsidHJhaXRfdHlwZSI6ICJUaGVtZSIsICJ2YWx1ZSI6ICJQcmVjaXNpb24ifSwgeyJ0cmFpdF90eXBlIjogIkZhbWlseSIsICJ2YWx1ZSI6ICJQb3RlbmN5In0sIHsidHJhaXRfdHlwZSI6ICJEYW1hZ2UiLCAidmFsdWUiOiAyfSwgeyJ0cmFpdF90eXBlIjogIk1vZHNUeXBlIiwgInZhbHVlIjogIkNyaXRpY2FsIEhpdCBEYW1hZ2UifSwgeyJ0cmFpdF90eXBlIjogIk1vZHNWYWx1ZSIsICJ2YWx1ZSI6IDE1fSwgeyJ0cmFpdF90eXBlIjogIk1vZHNWYWx1ZTIiLCAidmFsdWUiOiAwfV19";
     WeaponTestCollection weaponTestCollection;
@@ -94,6 +104,43 @@ contract NFTTest is Test {
             weaponTestCollection.getModLength()
         );
         assertEq(modShouldBe, "Critical Hit Damage");
+    }
+
+    function testRandomNumber() public {
+        for (uint i = 0; i < 1000; i++) {
+            uint8 randomNumber = weaponTestCollection.getRandomNumber(9);
+            if (randomNumber == 0) {
+                conter0++;
+            } else if (randomNumber == 1) {
+                conter1++;
+            } else if (randomNumber == 2) {
+                conter2++;
+            } else if (randomNumber == 3) {
+                conter3++;
+            } else if (randomNumber == 4) {
+                conter4++;
+            } else if (randomNumber == 5) {
+                conter5++;
+            } else if (randomNumber == 6) {
+                conter6++;
+            } else if (randomNumber == 7) {
+                conter7++;
+            } else if (randomNumber == 8) {
+                conter8++;
+            } else if (randomNumber == 9) {
+                conter9++;
+            }
+        }
+        console.log(conter0);
+        console.log(conter1);
+        console.log(conter2);
+        console.log(conter3);
+        console.log(conter4);
+        console.log(conter5);
+        console.log(conter6);
+        console.log(conter7);
+        console.log(conter8);
+        console.log(conter9);
     }
 
     receive() external payable {}

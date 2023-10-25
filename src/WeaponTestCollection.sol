@@ -15,6 +15,7 @@ contract WeaponTestCollection is
     TestCollectionStorage,
     ReentrancyGuard
 {
+    uint256 private nonce = 0;
     uint24 private s_tokenCounter;
     string private s_baseURI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
@@ -45,7 +46,7 @@ contract WeaponTestCollection is
 
     function mintMultipleNFTs(uint256 numNFTs) public {
         for (uint256 i = 0; i < numNFTs; i++) {
-            mintNft(msg.sender, getRandomNumber(10));
+            mintNft(msg.sender, getRandomNumber(9));
         }
     }
 
@@ -105,19 +106,20 @@ contract WeaponTestCollection is
         );
     }
 
-    function getRandomNumber(uint8 _maxNumber) internal view returns (uint8) {
-        uint256 seed = block.timestamp;
-        uint256 randomNumber = uint256(
+    function getRandomNumber(uint8 max) public returns (uint8) {
+        uint256 randomnumber = uint256(
             keccak256(
                 abi.encodePacked(
-                    seed,
-                    blockhash(block.number - 1),
+                    msg.sender,
+                    nonce,
                     block.timestamp,
-                    msg.sender
+                    block.number,
+                    block.prevrandao
                 )
             )
-        ) % _maxNumber;
-        return uint8(randomNumber);
+        ) % (max + 1);
+        nonce++;
+        return uint8(randomnumber);
     }
 
     function totalSupply() public view returns (uint256) {

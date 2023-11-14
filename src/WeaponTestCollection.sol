@@ -21,7 +21,7 @@ contract WeaponTestCollection is
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
-    mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
+    mapping(uint256 => ItemMutables) public tokenIdToItemDynamics;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
@@ -37,9 +37,9 @@ contract WeaponTestCollection is
         if (_recipient == address(0)) revert InvalidAdress(_recipient);
         uint24 tokenId = s_tokenCounter++;
         tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
-        tokenIdToItemDynamics[tokenId] = numberToDynamicMetaData[
-            _metaDataNumber
-        ];
+        // tokenIdToItemDynamics[tokenId] = numberToDynamicMetaData[
+        //     _metaDataNumber
+        // ];
 
         _safeMint(_recipient, tokenId);
     }
@@ -74,7 +74,7 @@ contract WeaponTestCollection is
 
     function constructAttributes(
         ItemConstants memory itemConstants,
-        ItemDynamics memory itemDynamics
+        ItemMutables memory itemMutables
     ) internal view returns (bytes memory part1, bytes memory part2) {
         part1 = abi.encodePacked(
             itemConstants.IMG,

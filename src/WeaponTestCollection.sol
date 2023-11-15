@@ -125,17 +125,16 @@ contract WeaponTestCollection is
             tokenIdToItemConstantsNumber[_tokenId]
         ];
 
-        ItemImmutable memory itemImmutables = tokenIdToImmutableMetaData[
+        ItemImmutables memory itemImmutables = tokenIdToItemImmutables[
             _tokenId
         ];
-        
+
         ItemMutables memory itemMutables = tokenIdToItemMutables[_tokenId];
 
         (bytes memory part1, bytes memory part2) = constructAttributes(
             itemConstants,
             itemImmutables,
             itemMutables
-
         );
 
         return
@@ -149,17 +148,14 @@ contract WeaponTestCollection is
 
     function constructAttributes(
         ItemConstants memory itemConstants,
-        ItemImmutable memory itemImmutable, 
-        ItemMutable memory itemMutable
-
+        ItemImmutables memory itemImmutables,
+        ItemMutables memory itemMutables
     ) internal view returns (bytes memory part1, bytes memory part2) {
         part1 = abi.encodePacked(
             itemConstants.IMG,
             '", ',
             '"name": "',
             itemConstants.Name,
-            '", "description": "',
-            itemConstants.Description, //bort med description
             '", "attributes": ',
             '[{"trait_type": "Type", "value": "',
             itemConstants.Type,
@@ -174,8 +170,7 @@ contract WeaponTestCollection is
             '"}, {"trait_type": "Damage", "value": ',
             Strings.toString(itemConstants.Damage),
             '}, {"trait_type": "ModsType", "value": "',
-            numberToModsType[itemDynamics.ModsType],  //bort med itemDynamics, in med itemImmutable och itemMutable
-
+            numberToModsType[itemDynamics.ModsType], //bort med itemDynamics, in med itemImmutable och itemMutable
             '"}, {"trait_type": "ModsValue", "value": ',
             Strings.toString(itemMutables.ModsValue),
             '}, {"trait_type": "ModsValue2", "value": ',

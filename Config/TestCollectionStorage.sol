@@ -92,8 +92,8 @@ contract TestCollectionStorage is Ownable {
     }
 
     function createMetadata(
-        string storage _IMG,
-        string storage _Name,
+        string memory _IMG,
+        string memory _Name,
         string memory _Type,
         string memory _Class
     ) public onlyOwner {

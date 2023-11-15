@@ -121,28 +121,37 @@ contract WeaponTestCollection is
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
-        ItemConstants memory itemConstants = numberToDefaultMetaData[
+        ItemConstants memory itemConstants = numberToDefaultMetaData[ //ItemConstansts, ItemImmutabeles, ItemMutables
             tokenIdToItemConstantsNumber[_tokenId]
         ];
+
+        ItemImmutable memory itemImmutables = tokenIdToImmutableMetaData[
+            _tokenId
+        ];
+        
         ItemMutables memory itemMutables = tokenIdToItemMutables[_tokenId];
 
         (bytes memory part1, bytes memory part2) = constructAttributes(
             itemConstants,
+            itemImmutables,
             itemMutables
+
         );
 
         return
             string(
                 abi.encodePacked(
                     s_baseURI,
-                    Base64.encode(bytes(abi.encodePacked(part1, part2)))
+                    Base64.encode(bytes(abi.encodePacked(part1, part2))) //behövs fler part här
                 )
             );
     }
 
     function constructAttributes(
         ItemConstants memory itemConstants,
-        ItemMutables memory itemMutables
+        ItemImmutable memory itemImmutable, 
+        ItemMutable memory itemMutable
+
     ) internal view returns (bytes memory part1, bytes memory part2) {
         part1 = abi.encodePacked(
             itemConstants.IMG,
@@ -150,7 +159,7 @@ contract WeaponTestCollection is
             '"name": "',
             itemConstants.Name,
             '", "description": "',
-            itemConstants.Description,
+            itemConstants.Description, //bort med description
             '", "attributes": ',
             '[{"trait_type": "Type", "value": "',
             itemConstants.Type,
@@ -165,7 +174,8 @@ contract WeaponTestCollection is
             '"}, {"trait_type": "Damage", "value": ',
             Strings.toString(itemConstants.Damage),
             '}, {"trait_type": "ModsType", "value": "',
-            numberToModsType[itemMutables.ModsType],
+            numberToModsType[itemDynamics.ModsType],  //bort med itemDynamics, in med itemImmutable och itemMutable
+
             '"}, {"trait_type": "ModsValue", "value": ',
             Strings.toString(itemMutables.ModsValue),
             '}, {"trait_type": "ModsValue2", "value": ',

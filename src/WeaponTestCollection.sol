@@ -134,36 +134,93 @@ contract WeaponTestCollection is
     function constructAttributes(
         ItemConstants memory itemConstants,
         ItemImmutables memory itemImmutables,
-        ItemMutables1 memory itemMutables1,
-        ItemMutables2 memory itemMutables2,
-        ItemMutables3 memory itemMutables3
-    ) internal view returns (bytes memory part1, bytes memory part2) {
-        // part1 = abi.encodePacked(
-        //     itemConstants.IMG,
-        //     '", ',
-        //     '"Name": "',
-        //     itemConstants.Name,
-        //     '", "attributes": ',
-        //     '[{"trait_type": "Type", "value": "',
-        //     itemConstants.Type,
-        //     '"}, {"trait_type": "Class", "value": ',
-        //     itemConstants.Class,
-        //     '}, {"trait_type": "Loot Level", "value": "',
-        //     itemConstants.Theme,
-        //     '"}, {"trait_type": "Family", "value": "',
-        //     itemConstants.Family
-        // );
-        // part2 = abi.encodePacked(
-        //     '"}, {"trait_type": "Damage", "value": ',
-        //     Strings.toString(itemConstants.Damage),
-        //     '}, {"trait_type": "ModsType", "value": "',
-        //     numberToModsType[itemDynamics.ModsType], //bort med itemDynamics, in med itemImmutable och itemMutable
-        //     '"}, {"trait_type": "ModsValue", "value": ',
-        //     Strings.toString(itemMutables.ModsValue),
-        //     '}, {"trait_type": "ModsValue2", "value": ',
-        //     Strings.toString(itemMutables.ModsValue2),
-        //     "}]}"
-        // );
+        ItemMutables memory itemMutables
+    ) internal view returns (bytes memory part1, bytes memory part2, bytes memory part3, bytes memory part4, bytes memory part5, bytes memory part6, bytes memory part7) {
+        part1 = abi.encodePacked(
+            itemConstants.IMG,
+            '", ',
+            '"Name": "',
+            itemConstants.Name,
+            '", "attributes": ',
+            '[{"trait_type": "Type", "value": "',
+            itemConstants.Type,
+            '"}, {"trait_type": "Class", "value": ',
+            itemConstants.Class,
+            '}, {"trait_type": "Loot Level", "value": "',
+            Strings.toString[ItemImmutables.Loot Level],
+            '"}, {"trait_type": "SeasonLooted", "value": "',
+            numberToSeason[ItemImmutables.SeasonLooted],
+        );
+        part2 = abi.encodePacked(
+            '"}, {"trait_type": "Rarity", "value": ',
+            numberToRarity[ItemImmutables.Rarity],
+            '}, {"trait_type": "MinDamage", "value": "',
+            numberToModsType[ItemMutables.MinDamage], 
+            '"}, {"trait_type": "MaxDamage", "value": ',
+            numberToModsType[itemMutables.MaxDamage],
+            '}, {"trait_type": "MinPhysicalDamage", "value": ',
+            Strings.toString[itemMutables.MinPhysicalDamage],
+            '}, {"trait_type": "MaxPhysicalDamage", "value": ',
+            Strings.toString[itemMutables.MaxPhysicalDamage],
+        );
+        part3 = abi.encodePacked(
+            '}, {"trait_type": "MinLigthingDamage", "value": ',
+            Strings.toString[itemMutables.MinLigthingDamage],
+            '}, {"trait_type": "MaxLigthingDamage", "value": ',
+            Strings.toString[itemMutables.MaxLigthingDamage],
+            '}, {"trait_type": "MinAetherealDamage", "value": ',
+            Strings.toString[itemMutables.MinAetherealDamage],
+            '}, {"trait_type": "MaxAetherealDamage", "value": ',
+            Strings.toString[itemMutables.MaxAetherealDamage],
+            '}, {"trait_type": "MinFireDamage", "value": ',
+            Strings.toString[itemMutables.MinFireDamage],
+        );
+        part4 = abi.encodePacked(
+            '}, {"trait_type": "MaxFireDamage", "value": ',
+            Strings.toString[itemMutables.MaxFireDamage],
+            '}, {"trait_type": "MinColdDamage", "value": ',
+            Strings.toString[itemMutables.MinColdDamage],
+            '}, {"trait_type": "MaxColdDamage", "value": ',
+            Strings.toString[itemMutables.MaxColdDamage],
+            '}, {"trait_type": "AttackSpeed", "value": ',
+            Strings.toString[itemMutables.AttackSpeed],
+            '}, {"trait_type": "Range", "value": ',
+            Strings.toString[itemMutables.Range],
+        );
+        part5 = abi.encodePacked(
+            '}, {"trait_type": "CriticalHitChance", "value": ',
+            Strings.toString[itemMutables.CriticalHitChance],
+            '}, {"trait_type": "MinCharacterLevel", "value": ',
+            Strings.toString[itemMutables.MinCharacterLevel],
+            '}, {"trait_type": "MinVitality", "value": ',
+            Strings.toString[itemMutables.MinVitality],
+            '}, {"trait_type": "MinCaliber", "value": ',
+            Strings.toString[itemMutables.MinCaliber],
+            '}, {"trait_type": "MinTrickery", "value": ',
+            Strings.toString[itemMutables.MinTrickery],
+        );
+        part6 = abi.encodePacked(
+            '}, {"trait_type": "MinBrilliance", "value": ',
+            Strings.toString[itemMutables.MinBrilliance],
+            '}, {"trait_type": "ModsType1", "value": ',
+            Strings.toString[itemMutables.ModsType1],
+            '}, {"trait_type": "ModsValue1", "value": ',
+            Strings.toString[itemMutables.ModsValue1],
+            '}, {"trait_type": "ModsType2", "value": ',
+            Strings.toString[itemMutables.ModsType2],
+            '}, {"trait_type": "ModsValue2", "value": ',
+            Strings.toString[itemMutables.ModsValue2],
+        );
+        part7 = abi.encodePacked(
+            '}, {"trait_type": "ModsType3", "value": ',
+            Strings.toString[itemMutables.ModsType3],
+            '}, {"trait_type": "ModsValue3", "value": ',
+            Strings.toString[itemMutables.ModsValue3],
+            '}, {"trait_type": "ModsType4", "value": ',
+            Strings.toString[itemMutables.ModsType4],
+            '}, {"trait_type": "ModsValue4", "value": ',
+            "}]}"
+        );
     }
 
     // function getRandomNumber(uint8 max) public returns (uint8) {

@@ -22,7 +22,8 @@ contract WeaponTestCollection is
 
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
     mapping(uint256 => ItemImmutables) public tokenIdToItemImmutables;
-    mapping(uint256 => ItemMutables) public tokenIdToItemMutables;
+    mapping(uint256 => ItemMutables1) public tokenIdToItemMutables1;
+    mapping(uint256 => ItemMutables2) public tokenIdToItemMutables2;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
@@ -31,37 +32,9 @@ contract WeaponTestCollection is
     function mintNft(
         address _recipient,
         uint8 _metaDataNumber,
-        uint8 _lootLevel,
-        uint8 _seasonLooted,
-        uint8 _rarity,
-        uint8 _MinDamage,
-        uint8 _MaxDamage,
-        uint8 _MinPhysicalDamage,
-        uint8 _MaxPhysicalDamage,
-        uint8 _MinLigthingDamage,
-        uint8 _MaxLigthingDamage,
-        uint8 _MinAetherealDamage,
-        uint8 _MaxAetherealDamage,
-        uint8 _MinFireDamage,
-        uint8 _MaxFireDamage,
-        uint8 _MinColdDamage,
-        uint8 _MaxColdDamage,
-        uint8 _AttackSpeed,
-        uint8 _Range,
-        uint8 _CriticalHitChance,
-        uint8 _MinCharacterLevel,
-        uint8 _MinVitality,
-        uint8 _MinCaliber,
-        uint8 _MinTrickery,
-        uint8 _MinBrilliance,
-        uint8 _ModsType1,
-        uint8 _ModsValue1,
-        uint8 _ModsType2,
-        uint8 _ModsValue2,
-        uint8 _ModsType3,
-        uint8 _ModsValue3,
-        uint8 _ModsType4,
-        uint8 _ModsValue4
+        ItemImmutables memory _itemImmutables,
+        ItemMutables1 memory _itemMutables1,
+        ItemMutables2 memory _itemMutables2
     ) public nonReentrant onlyOwner {
         // uint8 metaDataLenth = getMetaDataLength();
         // if (_metaDataNumber > metaDataLenth)
@@ -73,40 +46,43 @@ contract WeaponTestCollection is
         tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
 
         tokenIdToItemImmutables[tokenId] = ItemImmutables({
-            LootLevel: _lootLevel,
-            SeasonLooted: _seasonLooted,
-            Rarity: _rarity
+            LootLevel: _itemImmutables.LootLevel,
+            SeasonLooted: _itemImmutables.SeasonLooted,
+            Rarity: _itemImmutables.Rarity
         });
 
-        tokenIdToItemMutables[tokenId] = ItemMutables({
-            MinDamage: _MinDamage,
-            MaxDamage: _MaxDamage,
-            MinPhysicalDamage: _MinPhysicalDamage,
-            MaxPhysicalDamage: _MaxPhysicalDamage,
-            MinLigthingDamage: _MinLigthingDamage,
-            MaxLigthingDamage: _MaxLigthingDamage,
-            MinAetherealDamage: _MinAetherealDamage,
-            MaxAetherealDamage: _MaxAetherealDamage,
-            MinFireDamage: _MinFireDamage,
-            MaxFireDamage: _MaxFireDamage,
-            MinColdDamage: _MinColdDamage,
-            MaxColdDamage: _MaxColdDamage,
-            AttackSpeed: _AttackSpeed,
-            Range: _Range,
-            CriticalHitChance: _CriticalHitChance,
-            MinCharacterLevel: _MinCharacterLevel,
-            MinVitality: _MinVitality,
-            MinCaliber: _MinCaliber,
-            MinTrickery: _MinTrickery,
-            MinBrilliance: _MinBrilliance,
-            ModsType1: _ModsType1,
-            ModsValue1: _ModsValue1,
-            ModsType2: _ModsType2,
-            ModsValue2: _ModsValue2,
-            ModsType3: _ModsType3,
-            ModsValue3: _ModsValue3,
-            ModsType4: _ModsType4,
-            ModsValue4: _ModsValue4
+        tokenIdToItemMutables1[tokenId] = ItemMutables1({
+            MinDamage: _itemMutables1.MinDamage,
+            MaxDamage: _itemMutables1.MaxDamage,
+            MinPhysicalDamage: _itemMutables1.MinPhysicalDamage,
+            MaxPhysicalDamage: _itemMutables1.MaxPhysicalDamage,
+            MinLigthingDamage: _itemMutables1.MinLigthingDamage,
+            MaxLigthingDamage: _itemMutables1.MaxLigthingDamage,
+            MinAetherealDamage: _itemMutables1.MinAetherealDamage,
+            MaxAetherealDamage: _itemMutables1.MaxAetherealDamage,
+            MinFireDamage: _itemMutables1.MinFireDamage,
+            MaxFireDamage: _itemMutables1.MaxFireDamage,
+            MinColdDamage: _itemMutables1.MinColdDamage,
+            MaxColdDamage: _itemMutables1.MaxColdDamage,
+            AttackSpeed: _itemMutables1.AttackSpeed,
+            Range: _itemMutables1.Range,
+            CriticalHitChance: _itemMutables1.CriticalHitChance
+        });
+
+        tokenIdToItemMutables2[tokenId] = ItemMutables2({
+            MinCharacterLevel: _itemMutables2.MinCharacterLevel,
+            MinVitality: _itemMutables2.MinVitality,
+            MinCaliber: _itemMutables2.MinCaliber,
+            MinTrickery: _itemMutables2.MinTrickery,
+            MinBrilliance: _itemMutables2.MinBrilliance,
+            ModsType1: _itemMutables2.ModsType1,
+            ModsValue1: _itemMutables2.ModsValue1,
+            ModsType2: _itemMutables2.ModsType2,
+            ModsValue2: _itemMutables2.ModsValue2,
+            ModsType3: _itemMutables2.ModsType3,
+            ModsValue3: _itemMutables2.ModsValue3,
+            ModsType4: _itemMutables2.ModsType4,
+            ModsValue4: _itemMutables2.ModsValue4
         });
 
         _safeMint(_recipient, tokenId);
@@ -129,12 +105,14 @@ contract WeaponTestCollection is
             _tokenId
         ];
 
-        ItemMutables memory itemMutables = tokenIdToItemMutables[_tokenId];
+        ItemMutables1 memory itemMutables1 = tokenIdToItemMutables1[_tokenId];
+        ItemMutables2 memory itemMutables2 = tokenIdToItemMutables2[_tokenId];
 
         (bytes memory part1, bytes memory part2) = constructAttributes(
             itemConstants,
             itemImmutables,
-            itemMutables
+            itemMutables1,
+            itemMutables2
         );
 
         return
@@ -149,34 +127,35 @@ contract WeaponTestCollection is
     function constructAttributes(
         ItemConstants memory itemConstants,
         ItemImmutables memory itemImmutables,
-        ItemMutables memory itemMutables
+        ItemMutables1 memory itemMutables1,
+        ItemMutables2 memory itemMutables2
     ) internal view returns (bytes memory part1, bytes memory part2) {
-        part1 = abi.encodePacked(
-            itemConstants.IMG,
-            '", ',
-            '"Name": "',
-            itemConstants.Name,
-            '", "attributes": ',
-            '[{"trait_type": "Type", "value": "',
-            itemConstants.Type,
-            '"}, {"trait_type": "Class", "value": ',
-            itemConstants.Class,
-            '}, {"trait_type": "Loot Level", "value": "',
-            itemConstants.Theme,
-            '"}, {"trait_type": "Family", "value": "',
-            itemConstants.Family
-        );
-        part2 = abi.encodePacked(
-            '"}, {"trait_type": "Damage", "value": ',
-            Strings.toString(itemConstants.Damage),
-            '}, {"trait_type": "ModsType", "value": "',
-            numberToModsType[itemDynamics.ModsType], //bort med itemDynamics, in med itemImmutable och itemMutable
-            '"}, {"trait_type": "ModsValue", "value": ',
-            Strings.toString(itemMutables.ModsValue),
-            '}, {"trait_type": "ModsValue2", "value": ',
-            Strings.toString(itemMutables.ModsValue2),
-            "}]}"
-        );
+        // part1 = abi.encodePacked(
+        //     itemConstants.IMG,
+        //     '", ',
+        //     '"Name": "',
+        //     itemConstants.Name,
+        //     '", "attributes": ',
+        //     '[{"trait_type": "Type", "value": "',
+        //     itemConstants.Type,
+        //     '"}, {"trait_type": "Class", "value": ',
+        //     itemConstants.Class,
+        //     '}, {"trait_type": "Loot Level", "value": "',
+        //     itemConstants.Theme,
+        //     '"}, {"trait_type": "Family", "value": "',
+        //     itemConstants.Family
+        // );
+        // part2 = abi.encodePacked(
+        //     '"}, {"trait_type": "Damage", "value": ',
+        //     Strings.toString(itemConstants.Damage),
+        //     '}, {"trait_type": "ModsType", "value": "',
+        //     numberToModsType[itemDynamics.ModsType], //bort med itemDynamics, in med itemImmutable och itemMutable
+        //     '"}, {"trait_type": "ModsValue", "value": ',
+        //     Strings.toString(itemMutables.ModsValue),
+        //     '}, {"trait_type": "ModsValue2", "value": ',
+        //     Strings.toString(itemMutables.ModsValue2),
+        //     "}]}"
+        // );
     }
 
     // function getRandomNumber(uint8 max) public returns (uint8) {

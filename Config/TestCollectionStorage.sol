@@ -12,8 +12,8 @@ contract TestCollectionStorage is Ownable {
     mapping(uint8 => string) public numberToSeason;
     mapping(uint8 => string) public numberToRarity;
 
-    ItemMutables immutable defaultMutables =
-        ItemMutables({
+    ItemMutables1 public defaultMutables1 =
+        ItemMutables1({
             MinDamage: 30,
             MaxDamage: 80,
             MinPhysicalDamage: 30,
@@ -28,7 +28,11 @@ contract TestCollectionStorage is Ownable {
             MaxColdDamage: 0,
             AttackSpeed: 23,
             Range: 25,
-            CriticalHitChance: 10,
+            CriticalHitChance: 10
+        });
+
+    ItemMutables2 public defaultMutables2 =
+        ItemMutables2({
             MinCharacterLevel: 5,
             MinVitality: 0,
             MinCaliber: 0,
@@ -44,7 +48,7 @@ contract TestCollectionStorage is Ownable {
             ModsValue4: 25
         });
 
-    ItemImmutables immutable defaultImmutables =
+    ItemImmutables public defaultImmutables =
         ItemImmutables({LootLevel: 1, SeasonLooted: 0, Rarity: 2});
 
     struct ItemConstants {
@@ -60,7 +64,7 @@ contract TestCollectionStorage is Ownable {
         uint8 Rarity;
     }
 
-    struct ItemMutables {
+    struct ItemMutables1 {
         uint8 MinDamage;
         uint8 MaxDamage;
         uint8 MinPhysicalDamage;
@@ -76,6 +80,8 @@ contract TestCollectionStorage is Ownable {
         uint8 AttackSpeed;
         uint8 Range;
         uint8 CriticalHitChance;
+    }
+    struct ItemMutables2 {
         uint8 MinCharacterLevel;
         uint8 MinVitality;
         uint8 MinCaliber;

@@ -1,32 +1,3 @@
-// 1 MinDamage: 30
-// 2 MaxDamage: 80
-// 3 MinPhysicalDamage: 30
-// 4 MaxPhysicalDamage: 80
-// 5 MinLightningDamage: 0
-// 6 MaxLightningDamage: 0
-// 7 MinAetherealDamage: 0
-// 8 MaxAetherealDamage: 0
-// 9 MinFireDamage: 0
-// 10 MaxFireDamage: 0
-// 11 MinColdDamage: 0
-// 12 MaxColdDamage: 0
-// 13 AttackSpeed: 2.3
-// 14 Range: 2.5
-// 15 CritialHitChance: 10
-// 16 MinCharacterLevel: 5
-// 17 MinVitality: 0
-// 18 MinCaliber:0
-// 19 MinTrickery: 0
-// 20 MinBrilliance: 0
-// 21 ModsType1: Physical Damage Min
-// 23 ModsValue1: 25
-// 24 ModsType2: Physical Damage Max
-// 25 ModsValue2: 70
-// 26 ModsType3: Critical Hit Chance
-// 27 ModsValue3: 6
-// 28 ModsType4: Range
-// 29 ModsValue4: 25
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -39,6 +10,7 @@ contract TestCollectionStorage is Ownable {
     mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
     mapping(uint8 => string) public numberToModsType;
     mapping(uint8 => string) public numberToSeason;
+    mapping(uint8 => string) public numberToRarity;
 
     ItemMutables immutable defaultMutables =
         ItemMutables({
@@ -72,21 +44,20 @@ contract TestCollectionStorage is Ownable {
             ModsValue4: 25
         });
 
-    ItemImmutables immutable defaultItemImmutables = ItemImmutables(55, 0);
-
-    // Loot Season
+    ItemImmutables immutable defaultImmutables =
+        ItemImmutables({LootLevel: 1, SeasonLooted: 0, Rarity: 2});
 
     struct ItemConstants {
         string IMG;
         string Name;
         string Type;
         string Class;
-        string Rarity;
     }
 
     struct ItemImmutables {
         uint8 LootLevel;
         uint8 SeasonLooted;
+        uint8 Rarity;
     }
 
     struct ItemMutables {
@@ -123,20 +94,11 @@ contract TestCollectionStorage is Ownable {
     function createMetadata(
         string storage _IMG,
         string storage _Name,
-        string memory _Description,
         string memory _Type,
-        string memory _Class,
-        string memory _Rarity
+        string memory _Class
     ) public onlyOwner {
         numberToDefaultMetaData[s_metaCounter] = (
-            ItemConstants({
-                IMG: _IMG,
-                Name: _Name,
-                Description: _Description,
-                Type: _Type,
-                Class: _Class,
-                Rarity: _Rarity
-            })
+            ItemConstants({IMG: _IMG, Name: _Name, Type: _Type, Class: _Class})
         );
 
         s_metaCounter++;
@@ -149,6 +111,11 @@ contract TestCollectionStorage is Ownable {
 
     function createSeason(string memory _season) public onlyOwner {
         numberToSeason[s_seasonCounter] = _season;
+        s_seasonCounter++;
+    }
+
+    function createRarity(string memory _rarity) public onlyOwner {
+        numberToRarity[s_seasonCounter] = _rarity;
         s_seasonCounter++;
     }
 
@@ -180,5 +147,18 @@ contract TestCollectionStorage is Ownable {
         createMod("Physical Damage Max"); // 11
         // Season list
         createSeason("Open Beta"); // 0
+        // Rarity
+        createRarity("Uncommon"); // 0
+        createRarity("Common"); // 1
+        createRarity("Rare"); // 2
+        createRarity("Legendary"); // 3
+
+        // NFT list
+        createMetadata(
+            "QmYh6LbBZxuiAN23VdSMv8oXKsQ5S9sFCiC2nwZsd3NSrn",
+            "Sharpened Chunk of Junk",
+            "Saw Blade",
+            "1h Sword"
+        );
     }
 }

@@ -154,14 +154,14 @@ contract WeaponTestCollection is
         part1 = abi.encodePacked(
             itemConstants.IMG,
             '", ',
-            '"name": "',
+            '"Name": "',
             itemConstants.Name,
             '", "attributes": ',
             '[{"trait_type": "Type", "value": "',
             itemConstants.Type,
-            '"}, {"trait_type": "Tier", "value": ',
-            Strings.toString(itemConstants.Tier),
-            '}, {"trait_type": "Theme", "value": "',
+            '"}, {"trait_type": "Class", "value": ',
+            itemConstants.Class,
+            '}, {"trait_type": "Loot Level", "value": "',
             itemConstants.Theme,
             '"}, {"trait_type": "Family", "value": "',
             itemConstants.Family

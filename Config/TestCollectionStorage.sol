@@ -20,7 +20,7 @@ contract TestCollectionStorage is Ownable {
             MaxPhysicalDamage: 80,
             MinLigthingDamage: 0,
             MaxLigthingDamage: 0,
-            MinAetherealDamage: 0,
+            MinAetherealDamage: 0, 
             MaxAetherealDamage: 0,
             MinFireDamage: 0,
             MaxFireDamage: 0,
@@ -45,7 +45,7 @@ contract TestCollectionStorage is Ownable {
         });
 
     ItemImmutables immutable defaultImmutables =
-        ItemImmutables({LootLevel: 1, SeasonLooted: 0, Rarity: 2});
+        ItemImmutables({LootLevel: 55, SeasonLooted: 0, Rarity: 2});
 
     struct ItemConstants {
         string IMG;

@@ -150,7 +150,7 @@ contract WeaponTestCollection is
         ItemConstants memory itemConstants,
         ItemImmutables memory itemImmutables,
         ItemMutables memory itemMutables
-    ) internal view returns (bytes memory part1, bytes memory part2, bytes memory part3, bytes memory part4, bytes memory part5, bytes memory part6) {
+    ) internal view returns (bytes memory part1, bytes memory part2, bytes memory part3, bytes memory part4, bytes memory part5, bytes memory part6, bytes memory part7) {
         part1 = abi.encodePacked(
             itemConstants.IMG,
             '", ',
@@ -162,7 +162,7 @@ contract WeaponTestCollection is
             '"}, {"trait_type": "Class", "value": ',
             itemConstants.Class,
             '}, {"trait_type": "Loot Level", "value": "',
-            Strings.toString[ItemImmutables.Loot Level],//gör om! string
+            Strings.toString[ItemImmutables.Loot Level],
             '"}, {"trait_type": "SeasonLooted", "value": "',
             numberToSeason[ItemImmutables.SeasonLooted],
         );
@@ -177,7 +177,6 @@ contract WeaponTestCollection is
             Strings.toString[itemMutables.MinPhysicalDamage],
             '}, {"trait_type": "MaxPhysicalDamage", "value": ',
             Strings.toString[itemMutables.MaxPhysicalDamage],
-            "}]}"
         );
         part3 = abi.encodePacked(
             '}, {"trait_type": "MinLigthingDamage", "value": ',
@@ -190,7 +189,6 @@ contract WeaponTestCollection is
             Strings.toString[itemMutables.MaxAetherealDamage],
             '}, {"trait_type": "MinFireDamage", "value": ',
             Strings.toString[itemMutables.MinFireDamage],
-            "}]}"
         );
         part4 = abi.encodePacked(
             '}, {"trait_type": "MaxFireDamage", "value": ',
@@ -203,7 +201,6 @@ contract WeaponTestCollection is
             Strings.toString[itemMutables.AttackSpeed],
             '}, {"trait_type": "Range", "value": ',
             Strings.toString[itemMutables.Range],
-            "}]}"
         );
         part5 = abi.encodePacked(
             '}, {"trait_type": "CriticalHitChance", "value": ',
@@ -216,7 +213,6 @@ contract WeaponTestCollection is
             Strings.toString[itemMutables.MinCaliber],
             '}, {"trait_type": "MinTrickery", "value": ',
             Strings.toString[itemMutables.MinTrickery],
-            "}]}"
         );
         part6 = abi.encodePacked(
             '}, {"trait_type": "MinBrilliance", "value": ',
@@ -229,7 +225,6 @@ contract WeaponTestCollection is
             Strings.toString[itemMutables.ModsType2],
             '}, {"trait_type": "ModsValue2", "value": ',
             Strings.toString[itemMutables.ModsValue2],
-            "}]}"
         );
         part7 = abi.encodePacked(
             '}, {"trait_type": "ModsType3", "value": ',
@@ -237,8 +232,8 @@ contract WeaponTestCollection is
             '}, {"trait_type": "ModsValue3", "value": ',
             Strings.toString[itemMutables.ModsValue3],
             '}, {"trait_type": "ModsType4", "value": ',
-
-
+            Strings.toString[itemMutables.ModsType4],
+            '}, {"trait_type": "ModsValue4", "value": ',
             "}]}"
         );
     }

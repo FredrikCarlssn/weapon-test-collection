@@ -21,7 +21,7 @@ contract WeaponTestCollection is
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
-    mapping(uint256 => ItemDynamics) public tokenIdToItemDynamics;
+    mapping(uint256 => ItemMutables) public tokenIdToItemDynamics;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
@@ -53,28 +53,37 @@ contract WeaponTestCollection is
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
-        ItemConstants memory itemConstants = numberToDefaultMetaData[
+        ItemConstants memory itemConstants = numberToDefaultMetaData[ //ItemConstansts, ItemImmutabeles, ItemMutables
             tokenIdToItemConstantsNumber[_tokenId]
         ];
-        ItemDynamics memory itemDynamics = tokenIdToItemDynamics[_tokenId];
+        ItemImmutable memory itemImmutables = tokenIdToImmutableMetaData[
+            _tokenId
+        ];
+        //Här behövs en funktion för ItemImmutables
+        ////ItemDynamics memory itemDynamics = tokenIdToItemDynamics[_tokenId];
+        ItemMutables memory itemMutables = tokenIdToItemMutables[_tokenId];
 
         (bytes memory part1, bytes memory part2) = constructAttributes(
             itemConstants,
-            itemDynamics
+            itemImmutables,
+            itemMutables
+            //itemDynamics
         );
 
         return
             string(
                 abi.encodePacked(
                     s_baseURI,
-                    Base64.encode(bytes(abi.encodePacked(part1, part2)))
+                    Base64.encode(bytes(abi.encodePacked(part1, part2))) //behövs fler part här
                 )
             );
     }
 
     function constructAttributes(
         ItemConstants memory itemConstants,
-        ItemDynamics memory itemDynamics
+        ////ItemDynamics memory itemDynamics 
+        ItemImmutable memory itemImmutable, 
+        ItemMutable memory itemMutable
     ) internal view returns (bytes memory part1, bytes memory part2) {
         part1 = abi.encodePacked(
             itemConstants.IMG,
@@ -82,7 +91,7 @@ contract WeaponTestCollection is
             '"name": "',
             itemConstants.Name,
             '", "description": "',
-            itemConstants.Description,
+            itemConstants.Description, //bort med description
             '", "attributes": ',
             '[{"trait_type": "Type", "value": "',
             itemConstants.Type,
@@ -97,7 +106,7 @@ contract WeaponTestCollection is
             '"}, {"trait_type": "Damage", "value": ',
             Strings.toString(itemConstants.Damage),
             '}, {"trait_type": "ModsType", "value": "',
-            numberToModsType[itemDynamics.ModsType],
+            numberToModsType[itemDynamics.ModsType],  //bort med itemDynamics, in med itemImmutable och itemMutable
             '"}, {"trait_type": "ModsValue", "value": ',
             Strings.toString(itemDynamics.ModsValue),
             '}, {"trait_type": "ModsValue2", "value": ',

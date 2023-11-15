@@ -23,21 +23,25 @@ contract TestCollectionStorage is Ownable {
             MinAetherealDamage: 0,
             MaxAetherealDamage: 0,
             MinFireDamage: 0,
-            MaxFireDamage: 0,
-            MinColdDamage: 0,
-            MaxColdDamage: 0,
-            AttackSpeed: 23,
-            Range: 25,
-            CriticalHitChance: 10
+            MaxFireDamage: 0
         });
 
     ItemMutables2 public defaultMutables2 =
         ItemMutables2({
+            MinColdDamage: 0,
+            MaxColdDamage: 0,
+            AttackSpeed: 23,
+            Range: 25,
+            CriticalHitChance: 10,
             MinCharacterLevel: 5,
             MinVitality: 0,
             MinCaliber: 0,
             MinTrickery: 0,
-            MinBrilliance: 0,
+            MinBrilliance: 0
+        });
+
+    ItemMutables3 public defaultMutables3 =
+        ItemMutables3({
             ModsType1: 10, // Physical Damage Min
             ModsValue1: 25,
             ModsType2: 11, // Physical Damage Max
@@ -75,18 +79,22 @@ contract TestCollectionStorage is Ownable {
         uint8 MaxAetherealDamage;
         uint8 MinFireDamage;
         uint8 MaxFireDamage;
+    }
+
+    struct ItemMutables2 {
         uint8 MinColdDamage;
         uint8 MaxColdDamage;
         uint8 AttackSpeed;
         uint8 Range;
         uint8 CriticalHitChance;
-    }
-    struct ItemMutables2 {
         uint8 MinCharacterLevel;
         uint8 MinVitality;
         uint8 MinCaliber;
         uint8 MinTrickery;
         uint8 MinBrilliance;
+    }
+
+    struct ItemMutables3 {
         uint8 ModsType1;
         uint8 ModsValue1;
         uint8 ModsType2;

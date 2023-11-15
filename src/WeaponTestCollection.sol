@@ -24,6 +24,7 @@ contract WeaponTestCollection is
     mapping(uint256 => ItemImmutables) public tokenIdToItemImmutables;
     mapping(uint256 => ItemMutables1) public tokenIdToItemMutables1;
     mapping(uint256 => ItemMutables2) public tokenIdToItemMutables2;
+    mapping(uint256 => ItemMutables3) public tokenIdToItemMutables3;
 
     constructor() ERC721("NEW", "NWE") {
         // mintNft(msg.sender, 0);
@@ -34,7 +35,8 @@ contract WeaponTestCollection is
         uint8 _metaDataNumber,
         ItemImmutables memory _itemImmutables,
         ItemMutables1 memory _itemMutables1,
-        ItemMutables2 memory _itemMutables2
+        ItemMutables2 memory _itemMutables2,
+        ItemMutables3 memory _itemMutables3
     ) public nonReentrant onlyOwner {
         // uint8 metaDataLenth = getMetaDataLength();
         // if (_metaDataNumber > metaDataLenth)
@@ -61,28 +63,31 @@ contract WeaponTestCollection is
             MinAetherealDamage: _itemMutables1.MinAetherealDamage,
             MaxAetherealDamage: _itemMutables1.MaxAetherealDamage,
             MinFireDamage: _itemMutables1.MinFireDamage,
-            MaxFireDamage: _itemMutables1.MaxFireDamage,
-            MinColdDamage: _itemMutables1.MinColdDamage,
-            MaxColdDamage: _itemMutables1.MaxColdDamage,
-            AttackSpeed: _itemMutables1.AttackSpeed,
-            Range: _itemMutables1.Range,
-            CriticalHitChance: _itemMutables1.CriticalHitChance
+            MaxFireDamage: _itemMutables1.MaxFireDamage
         });
 
         tokenIdToItemMutables2[tokenId] = ItemMutables2({
+            MinColdDamage: _itemMutables2.MinColdDamage,
+            MaxColdDamage: _itemMutables2.MaxColdDamage,
+            AttackSpeed: _itemMutables2.AttackSpeed,
+            Range: _itemMutables2.Range,
+            CriticalHitChance: _itemMutables2.CriticalHitChance,
             MinCharacterLevel: _itemMutables2.MinCharacterLevel,
             MinVitality: _itemMutables2.MinVitality,
             MinCaliber: _itemMutables2.MinCaliber,
             MinTrickery: _itemMutables2.MinTrickery,
-            MinBrilliance: _itemMutables2.MinBrilliance,
-            ModsType1: _itemMutables2.ModsType1,
-            ModsValue1: _itemMutables2.ModsValue1,
-            ModsType2: _itemMutables2.ModsType2,
-            ModsValue2: _itemMutables2.ModsValue2,
-            ModsType3: _itemMutables2.ModsType3,
-            ModsValue3: _itemMutables2.ModsValue3,
-            ModsType4: _itemMutables2.ModsType4,
-            ModsValue4: _itemMutables2.ModsValue4
+            MinBrilliance: _itemMutables2.MinBrilliance
+        });
+
+        tokenIdToItemMutables3[tokenId] = ItemMutables3({
+            ModsType1: _itemMutables3.ModsType1,
+            ModsValue1: _itemMutables3.ModsValue1,
+            ModsType2: _itemMutables3.ModsType2,
+            ModsValue2: _itemMutables3.ModsValue2,
+            ModsType3: _itemMutables3.ModsType3,
+            ModsValue3: _itemMutables3.ModsValue3,
+            ModsType4: _itemMutables3.ModsType4,
+            ModsValue4: _itemMutables3.ModsValue4
         });
 
         _safeMint(_recipient, tokenId);
@@ -107,12 +112,14 @@ contract WeaponTestCollection is
 
         ItemMutables1 memory itemMutables1 = tokenIdToItemMutables1[_tokenId];
         ItemMutables2 memory itemMutables2 = tokenIdToItemMutables2[_tokenId];
+        ItemMutables3 memory itemMutables3 = tokenIdToItemMutables3[_tokenId];
 
         (bytes memory part1, bytes memory part2) = constructAttributes(
             itemConstants,
             itemImmutables,
             itemMutables1,
-            itemMutables2
+            itemMutables2,
+            itemMutables3
         );
 
         return
@@ -128,7 +135,8 @@ contract WeaponTestCollection is
         ItemConstants memory itemConstants,
         ItemImmutables memory itemImmutables,
         ItemMutables1 memory itemMutables1,
-        ItemMutables2 memory itemMutables2
+        ItemMutables2 memory itemMutables2,
+        ItemMutables3 memory itemMutables3
     ) internal view returns (bytes memory part1, bytes memory part2) {
         // part1 = abi.encodePacked(
         //     itemConstants.IMG,

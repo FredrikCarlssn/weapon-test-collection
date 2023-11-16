@@ -25,8 +25,14 @@ contract NFTTest is Test {
     function setUp() public {
         vm.prank(msg.sender);
         weaponTestCollection = new WeaponTestCollection();
-        vm.prank(msg.sender);
-        // weaponTestCollection.mintNft(msg.sender, 0);
+    }
+
+    function testMultipleMint() public {
+        for (uint256 i = 0; i < 100; i++) {
+            vm.prank(msg.sender);
+            weaponTestCollection.defaultMint();
+            console.log("hello");
+        }
     }
 
     // // WeaponTestCollection.sol Tests

@@ -23,9 +23,7 @@ contract WeaponTestCollection is
 
     mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
     mapping(uint256 => ItemImmutables) public tokenIdToItemImmutables;
-    mapping(uint256 => ItemMutables1) public tokenIdToItemMutables1;
-    mapping(uint256 => ItemMutables2) public tokenIdToItemMutables2;
-    mapping(uint256 => ItemMutables3) public tokenIdToItemMutables3;
+    mapping(uint256 => ItemMutables) public tokenIdToItemMutables;
     mapping(uint256 => DynamicMode) public tokenIdToDynamicMode;
 
     enum DynamicMode {
@@ -44,94 +42,41 @@ contract WeaponTestCollection is
         address _recipient,
         uint8 _metaDataNumber,
         ItemImmutables memory _itemImmutables,
-        ItemMutables1 memory _itemMutables1,
-        ItemMutables2 memory _itemMutables2,
-        ItemMutables3 memory _itemMutables3
+        ItemMutables memory _itemMutables
+      
     ) public nonReentrant onlyOwner {
         uint8 metaDataLenth = getMetaDataLength();
         if (_metaDataNumber > metaDataLenth)
             revert InvalidMetadataNumber(_metaDataNumber);
         if (_recipient == address(0)) revert InvalidAdress(_recipient);
+        
+
 
         uint24 tokenId = s_tokenCounter++;
 
         tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
-
+        tokenIdToItemImmutables[tokenId] = _itemImmutables;
+        tokenIdToItemMutables[tokenId] = _itemMutables;
         tokenIdToDynamicMode[tokenId] = DynamicMode.Unlocked;
-
-        tokenIdToItemImmutables[tokenId] = ItemImmutables({
-            LootLevel: _itemImmutables.LootLevel,
-            SeasonLooted: _itemImmutables.SeasonLooted,
-            Rarity: _itemImmutables.Rarity
-        });
-
-        tokenIdToItemMutables1[tokenId] = _itemMutables1;
-
-        tokenIdToItemMutables2[tokenId] = ItemMutables2({
-            MinColdDamage: _itemMutables2.MinColdDamage,
-            MaxColdDamage: _itemMutables2.MaxColdDamage,
-            AttackSpeed: _itemMutables2.AttackSpeed,
-            Range: _itemMutables2.Range,
-            CriticalHitChance: _itemMutables2.CriticalHitChance,
-            MinCharacterLevel: _itemMutables2.MinCharacterLevel,
-            MinVitality: _itemMutables2.MinVitality,
-            MinCaliber: _itemMutables2.MinCaliber,
-            MinTrickery: _itemMutables2.MinTrickery,
-            MinBrilliance: _itemMutables2.MinBrilliance
-        });
-
-        tokenIdToItemMutables3[tokenId] = ItemMutables3({
-            ModsType1: _itemMutables3.ModsType1,
-            ModsValue1: _itemMutables3.ModsValue1,
-            ModsType2: _itemMutables3.ModsType2,
-            ModsValue2: _itemMutables3.ModsValue2,
-            ModsType3: _itemMutables3.ModsType3,
-            ModsValue3: _itemMutables3.ModsValue3,
-            ModsType4: _itemMutables3.ModsType4,
-            ModsValue4: _itemMutables3.ModsValue4
-        });
 
         _safeMint(_recipient, tokenId);
     }
 
-    // function mintMultipleNFTs(uint256 numNFTs) public {
-    //     for (uint256 i = 0; i < numNFTs; i++) {
-    //         mintNft(msg.sender, getRandomNumber(0) );
-    //     }
-    // }
+    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
+        ItemConstants storage itemConstants = numberToDefaultMetaData[tokenIdToItemConstantsNumber[_tokenId]];
+        ItemImmutables storage itemImmutables = tokenIdToItemImmutables[_tokenId];
+        ItemMutables storage itemMutables = tokenIdToItemMutables[_tokenId];
 
-    function tokenURI(
-        uint256 _tokenId
-    ) public view override returns (string memory) {
-        ItemConstants memory itemConstants = numberToDefaultMetaData[ //ItemConstansts, ItemImmutabeles, ItemMutables
-            tokenIdToItemConstantsNumber[_tokenId]
-        ];
-
-        ItemImmutables memory itemImmutables = tokenIdToItemImmutables[
-            _tokenId
-        ];
-
-        ItemMutables1 memory itemMutables1 = tokenIdToItemMutables1[_tokenId];
-        ItemMutables2 memory itemMutables2 = tokenIdToItemMutables2[_tokenId];
-        ItemMutables3 memory itemMutables3 = tokenIdToItemMutables3[_tokenId];
-
-        bytes memory allVariables = constructAttributes(
-            itemConstants,
-            itemImmutables,
-            itemMutables1,
-            itemMutables2,
-            itemMutables3
-        );
+        bytes memory allVariables = constructAttributes(itemConstants, itemImmutables, itemMutables);
 
         return string(abi.encodePacked(s_baseURI, Base64.encode(allVariables)));
     }
 
     function constructAttributes(
-        ItemConstants memory itemConstants,
-        ItemImmutables memory itemImmutables,
-        ItemMutables1 memory itemMutables1,
-        ItemMutables2 memory itemMutables2,
-        ItemMutables3 memory itemMutables3
+        ItemConstants storage itemConstants,
+        ItemImmutables storage itemImmutables,
+        ItemMutables storage itemMutables
+    
     ) internal view returns (bytes memory) {
         bytes memory part1 = abi.encodePacked(
             itemConstants.IMG,
@@ -146,80 +91,78 @@ contract WeaponTestCollection is
             '}, {"trait_type": "Loot Level", "value": "',
             Strings.toString(itemImmutables.LootLevel),
             '"}, {"trait_type": "SeasonLooted", "value": "',
-            numberToSeason[itemImmutables.SeasonLooted]
+            numberToSeason[itemImmutables.SeasonLooted],
+            '"}, {"trait_type": "Rarity", "value": ',
+            numberToRarity[itemImmutables.Rarity]
         );
         bytes memory part2 = abi.encodePacked(
-            '"}, {"trait_type": "Rarity", "value": ',
-            numberToRarity[itemImmutables.Rarity],
             '}, {"trait_type": "MinDamage", "value": "',
-            numberToModsType[itemMutables1.MinDamage],
+            numberToModsType[itemMutables.mutables1.MinDamage],
             '"}, {"trait_type": "MaxDamage", "value": ',
-            numberToModsType[itemMutables1.MaxDamage],
+            numberToModsType[itemMutables.mutables1.MaxDamage],
             '}, {"trait_type": "MinPhysicalDamage", "value": ',
-            Strings.toString(itemMutables1.MinPhysicalDamage),
+            numberToModsType[itemMutables.mutables1.MinPhysicalDamage],
             '}, {"trait_type": "MaxPhysicalDamage", "value": ',
-            Strings.toString(itemMutables1.MaxPhysicalDamage)
+            numberToModsType[itemMutables.mutables1.MaxPhysicalDamage],
+            '}, {"trait_type": "MinLigthingDamage", "value": ',
+            numberToModsType[itemMutables.mutables1.MinLigthingDamage],
+            '}, {"trait_type": "MaxLigthingDamage", "value": ',
+            numberToModsType[itemMutables.mutables1.MaxLigthingDamage],
+            '}, {"trait_type": "MinAetherealDamage", "value": ',    
+            numberToModsType[itemMutables.mutables1.MinAetherealDamage],
+            '}, {"trait_type": "MaxAetherealDamage", "value": ',
+            numberToModsType[itemMutables.mutables1.MaxAetherealDamage]
         );
         bytes memory part3 = abi.encodePacked(
-            '}, {"trait_type": "MinLigthingDamage", "value": ',
-            Strings.toString(itemMutables1.MinLigthingDamage),
-            '}, {"trait_type": "MaxLigthingDamage", "value": ',
-            Strings.toString(itemMutables1.MaxLigthingDamage),
-            '}, {"trait_type": "MinAetherealDamage", "value": ',
-            Strings.toString(itemMutables1.MinAetherealDamage),
-            '}, {"trait_type": "MaxAetherealDamage", "value": ',
-            Strings.toString(itemMutables1.MaxAetherealDamage),
             '}, {"trait_type": "MinFireDamage", "value": ',
-            Strings.toString(itemMutables1.MinFireDamage)
-        );
-        bytes memory part4 = abi.encodePacked(
+            numberToModsType[itemMutables.mutables1.MinFireDamage],
             '}, {"trait_type": "MaxFireDamage", "value": ',
-            Strings.toString(itemMutables1.MaxFireDamage),
+            numberToModsType[itemMutables.mutables1.MaxFireDamage],
             '}, {"trait_type": "MinColdDamage", "value": ',
-            Strings.toString(itemMutables2.MinColdDamage),
+            Strings.toString(itemMutables.mutables2.MinColdDamage),
             '}, {"trait_type": "MaxColdDamage", "value": ',
-            Strings.toString(itemMutables2.MaxColdDamage),
+            Strings.toString(itemMutables.mutables2.MaxColdDamage),
             '}, {"trait_type": "AttackSpeed", "value": ',
-            Strings.toString(itemMutables2.AttackSpeed),
+            Strings.toString(itemMutables.mutables2.AttackSpeed),
             '}, {"trait_type": "Range", "value": ',
-            Strings.toString(itemMutables2.Range)
+            Strings.toString(itemMutables.mutables2.Range),
+            '}, {"trait_type": "CriticalHitChance", "value": ',
+            Strings.toString(itemMutables.mutables2.CriticalHitChance),
+            '}, {"trait_type": "MinCharacterLevel", "value": ',
+            Strings.toString(itemMutables.mutables2.MinCharacterLevel)
+        );
+        bytes memory part4 = abi.encodePacked(    
+            '}, {"trait_type": "MinVitality", "value": ',
+            Strings.toString(itemMutables.mutables2.MinVitality),
+            '}, {"trait_type": "MinCaliber", "value": ',
+            Strings.toString(itemMutables.mutables2.MinCaliber),
+            '}, {"trait_type": "MinTrickery", "value": ',
+            Strings.toString(itemMutables.mutables2.MinTrickery),
+            '}, {"trait_type": "MinBrilliance", "value": ',
+            Strings.toString(itemMutables.mutables2.MinBrilliance),
+            '}, {"trait_type": "ModsType1", "value": ',
+            numberToModsType[itemMutables.mutables3.ModsType1],
+            '}, {"trait_type": "ModsValue1", "value": ',
+            Strings.toString(itemMutables.mutables3.ModsValue1)
         );
         bytes memory part5 = abi.encodePacked(
-            '}, {"trait_type": "CriticalHitChance", "value": ',
-            Strings.toString(itemMutables2.CriticalHitChance),
-            '}, {"trait_type": "MinCharacterLevel", "value": ',
-            Strings.toString(itemMutables2.MinCharacterLevel),
-            '}, {"trait_type": "MinVitality", "value": ',
-            Strings.toString(itemMutables2.MinVitality),
-            '}, {"trait_type": "MinCaliber", "value": ',
-            Strings.toString(itemMutables2.MinCaliber),
-            '}, {"trait_type": "MinTrickery", "value": ',
-            Strings.toString(itemMutables2.MinTrickery)
-        );
-        bytes memory part6 = abi.encodePacked(
-            '}, {"trait_type": "MinBrilliance", "value": ',
-            Strings.toString(itemMutables2.MinBrilliance),
-            '}, {"trait_type": "ModsType1", "value": ',
-            numberToModsType[itemMutables3.ModsType1],
-            '}, {"trait_type": "ModsValue1", "value": ',
-            Strings.toString(itemMutables3.ModsValue1),
             '}, {"trait_type": "ModsType2", "value": ',
-            numberToModsType[itemMutables3.ModsType2],
+            numberToModsType[itemMutables.mutables3.ModsType2],
             '}, {"trait_type": "ModsValue2", "value": ',
-            Strings.toString(itemMutables3.ModsValue2)
-        );
-        bytes memory part7 = abi.encodePacked(
+            Strings.toString(itemMutables.mutables3.ModsValue2),
             '}, {"trait_type": "ModsType3", "value": ',
-            numberToModsType[itemMutables3.ModsType3],
+            numberToModsType[itemMutables.mutables3.ModsType3],
             '}, {"trait_type": "ModsValue3", "value": ',
-            Strings.toString(itemMutables3.ModsValue3),
+            Strings.toString(itemMutables.mutables3.ModsValue3),
             '}, {"trait_type": "ModsType4", "value": ',
-            numberToModsType[itemMutables3.ModsType4],
+            numberToModsType[itemMutables.mutables3.ModsType4],
+            '}, {"trait_type": "ModsValue4", "value": ',
+            Strings.toString(itemMutables.mutables3.ModsValue4),
             "}]}"
         );
 
         return (
-            abi.encodePacked(part1, part2, part3, part4, part5, part6, part7)
+            abi.encodePacked(part1, part2, part3, part4, part5)
         );
     }
 
@@ -244,9 +187,7 @@ contract WeaponTestCollection is
             msg.sender,
             0,
             defaultImmutables,
-            defaultMutables1,
-            defaultMutables2,
-            defaultMutables3
+            defaultMutables
         );
     }
 

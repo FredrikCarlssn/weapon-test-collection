@@ -12,6 +12,18 @@ contract TestCollectionStorage is Ownable {
     mapping(uint8 => string) public numberToSeason;
     mapping(uint8 => string) public numberToRarity;
 
+    struct ItemMutables { 
+        ItemMutables1 mutables1;
+        ItemMutables2 mutables2;
+        ItemMutables3 mutables3;
+    }
+
+    ItemMutables public defaultMutables = ItemMutables({
+        mutables1: defaultMutables1,
+        mutables2: defaultMutables2,
+        mutables3: defaultMutables3
+    });
+
     ItemMutables1 public defaultMutables1 =
         ItemMutables1({
             MinDamage: 30,

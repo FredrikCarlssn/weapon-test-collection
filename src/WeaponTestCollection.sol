@@ -21,16 +21,7 @@ contract WeaponTestCollection is
     string private s_baseURI =
         "data:application/json;base64,eyJpbWFnZSI6ICJpcGZzOi8v";
 
-    mapping(uint256 => uint256) public tokenIdToItemConstantsNumber;
-    mapping(uint256 => ItemImmutables) public tokenIdToItemImmutables;
-    mapping(uint256 => ItemMutables) public tokenIdToItemMutables;
-    mapping(uint256 => DynamicMode) public tokenIdToDynamicMode;
-
-    enum DynamicMode {
-        Locked,
-        Unlocked,
-        Rerolling
-    }
+    mapping(uint256 => Item) public tokenIdToItem;
 
     event RerollLockedNft(uint256 tokenId);
 
@@ -43,14 +34,11 @@ contract WeaponTestCollection is
         uint8 _metaDataNumber,
         ItemImmutables memory _itemImmutables,
         ItemMutables memory _itemMutables
-      
     ) public nonReentrant onlyOwner {
         uint8 metaDataLenth = getMetaDataLength();
         if (_metaDataNumber > metaDataLenth)
             revert InvalidMetadataNumber(_metaDataNumber);
         if (_recipient == address(0)) revert InvalidAdress(_recipient);
-        
-
 
         uint24 tokenId = s_tokenCounter++;
 
@@ -62,12 +50,22 @@ contract WeaponTestCollection is
         _safeMint(_recipient, tokenId);
     }
 
-    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        ItemConstants storage itemConstants = numberToDefaultMetaData[tokenIdToItemConstantsNumber[_tokenId]];
-        ItemImmutables storage itemImmutables = tokenIdToItemImmutables[_tokenId];
+    function tokenURI(
+        uint256 _tokenId
+    ) public view override returns (string memory) {
+        ItemConstants storage itemConstants = numberToDefaultMetaData[
+            tokenIdToItemConstantsNumber[_tokenId]
+        ];
+        ItemImmutables storage itemImmutables = tokenIdToItemImmutables[
+            _tokenId
+        ];
         ItemMutables storage itemMutables = tokenIdToItemMutables[_tokenId];
 
-        bytes memory allVariables = constructAttributes(itemConstants, itemImmutables, itemMutables);
+        bytes memory allVariables = constructAttributes(
+            itemConstants,
+            itemImmutables,
+            itemMutables
+        );
 
         return string(abi.encodePacked(s_baseURI, Base64.encode(allVariables)));
     }
@@ -76,7 +74,6 @@ contract WeaponTestCollection is
         ItemConstants storage itemConstants,
         ItemImmutables storage itemImmutables,
         ItemMutables storage itemMutables
-    
     ) internal view returns (bytes memory) {
         bytes memory part1 = abi.encodePacked(
             itemConstants.IMG,
@@ -108,7 +105,7 @@ contract WeaponTestCollection is
             numberToModsType[itemMutables.mutables1.MinLigthingDamage],
             '}, {"trait_type": "MaxLigthingDamage", "value": ',
             numberToModsType[itemMutables.mutables1.MaxLigthingDamage],
-            '}, {"trait_type": "MinAetherealDamage", "value": ',    
+            '}, {"trait_type": "MinAetherealDamage", "value": ',
             numberToModsType[itemMutables.mutables1.MinAetherealDamage],
             '}, {"trait_type": "MaxAetherealDamage", "value": ',
             numberToModsType[itemMutables.mutables1.MaxAetherealDamage]
@@ -131,7 +128,7 @@ contract WeaponTestCollection is
             '}, {"trait_type": "MinCharacterLevel", "value": ',
             Strings.toString(itemMutables.mutables2.MinCharacterLevel)
         );
-        bytes memory part4 = abi.encodePacked(    
+        bytes memory part4 = abi.encodePacked(
             '}, {"trait_type": "MinVitality", "value": ',
             Strings.toString(itemMutables.mutables2.MinVitality),
             '}, {"trait_type": "MinCaliber", "value": ',
@@ -161,9 +158,7 @@ contract WeaponTestCollection is
             "}]}"
         );
 
-        return (
-            abi.encodePacked(part1, part2, part3, part4, part5)
-        );
+        return (abi.encodePacked(part1, part2, part3, part4, part5));
     }
 
     // function getRandomNumber(uint8 max) public returns (uint8) {
@@ -183,12 +178,7 @@ contract WeaponTestCollection is
     // }
 
     function defaultMint() public {
-        mintNft(
-            msg.sender,
-            0,
-            defaultImmutables,
-            defaultMutables
-        );
+        mintNft(msg.sender, 0, defaultImmutables, defaultMutables);
     }
 
     function rerollNft(
@@ -249,39 +239,41 @@ contract WeaponTestCollection is
     function testReroll() public {
         rerollNft(
             0,
-            ItemMutables1({
-                MinDamage: 1,
-                MaxDamage: 2,
-                MinPhysicalDamage: 3,
-                MaxPhysicalDamage: 4,
-                MinLigthingDamage: 5,
-                MaxLigthingDamage: 6,
-                MinAetherealDamage: 7,
-                MaxAetherealDamage: 8,
-                MinFireDamage: 9,
-                MaxFireDamage: 10
-            }),
-            ItemMutables2({
-                MinColdDamage: 11,
-                MaxColdDamage: 12,
-                AttackSpeed: 13,
-                Range: 14,
-                CriticalHitChance: 15,
-                MinCharacterLevel: 16,
-                MinVitality: 17,
-                MinCaliber: 18,
-                MinTrickery: 19,
-                MinBrilliance: 20
-            }),
-            ItemMutables3({
-                ModsType1: 1,
-                ModsValue1: 22,
-                ModsType2: 1,
-                ModsValue2: 24,
-                ModsType3: 3,
-                ModsValue3: 26,
-                ModsType4: 4,
-                ModsValue4: 28
+            ItemMutables({
+                mutables1: ItemMutables1({
+                    MinDamage: 1,
+                    MaxDamage: 2,
+                    MinPhysicalDamage: 3,
+                    MaxPhysicalDamage: 4,
+                    MinLigthingDamage: 5,
+                    MaxLigthingDamage: 6,
+                    MinAetherealDamage: 7,
+                    MaxAetherealDamage: 8,
+                    MinFireDamage: 9,
+                    MaxFireDamage: 10
+                }),
+                mutables2: ItemMutables2({
+                    MinColdDamage: 11,
+                    MaxColdDamage: 12,
+                    AttackSpeed: 13,
+                    Range: 14,
+                    CriticalHitChance: 15,
+                    MinCharacterLevel: 16,
+                    MinVitality: 17,
+                    MinCaliber: 18,
+                    MinTrickery: 19,
+                    MinBrilliance: 20
+                }),
+                mutables3: ItemMutables3({
+                    ModsType1: 1,
+                    ModsValue1: 22,
+                    ModsType2: 1,
+                    ModsValue2: 24,
+                    ModsType3: 3,
+                    ModsValue3: 26,
+                    ModsType4: 4,
+                    ModsValue4: 28
+                })
             })
         );
     }

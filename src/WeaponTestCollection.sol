@@ -9,6 +9,7 @@ import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 
 error InvalidMetadataNumber(uint8 _metaDataNumber);
 error InvalidAdress(address _address);
+error InvalidState(uint8 _state);
 
 contract WeaponTestCollection is
     ERC721,
@@ -25,16 +26,18 @@ contract WeaponTestCollection is
     mapping(uint256 => ItemMutables1) public tokenIdToItemMutables1;
     mapping(uint256 => ItemMutables2) public tokenIdToItemMutables2;
     mapping(uint256 => ItemMutables3) public tokenIdToItemMutables3;
+    mapping(uint256 => DynamicMode) public tokenIdToDynamicMode;
+
+    enum DynamicMode {
+        Locked,
+        Unlocked,
+        Rerolling
+    }
+
+    event RerollLockedNft(uint256 tokenId);
 
     constructor() ERC721("NEW", "NWE") {
-        mintNft(
-            msg.sender,
-            0,
-            defaultImmutables,
-            defaultMutables1,
-            defaultMutables2,
-            defaultMutables3
-        );
+        defaultMint();
     }
 
     function mintNft(
@@ -54,24 +57,15 @@ contract WeaponTestCollection is
 
         tokenIdToItemConstantsNumber[tokenId] = _metaDataNumber;
 
+        tokenIdToDynamicMode[tokenId] = DynamicMode.Unlocked;
+
         tokenIdToItemImmutables[tokenId] = ItemImmutables({
             LootLevel: _itemImmutables.LootLevel,
             SeasonLooted: _itemImmutables.SeasonLooted,
             Rarity: _itemImmutables.Rarity
         });
 
-        tokenIdToItemMutables1[tokenId] = ItemMutables1({
-            MinDamage: _itemMutables1.MinDamage,
-            MaxDamage: _itemMutables1.MaxDamage,
-            MinPhysicalDamage: _itemMutables1.MinPhysicalDamage,
-            MaxPhysicalDamage: _itemMutables1.MaxPhysicalDamage,
-            MinLigthingDamage: _itemMutables1.MinLigthingDamage,
-            MaxLigthingDamage: _itemMutables1.MaxLigthingDamage,
-            MinAetherealDamage: _itemMutables1.MinAetherealDamage,
-            MaxAetherealDamage: _itemMutables1.MaxAetherealDamage,
-            MinFireDamage: _itemMutables1.MinFireDamage,
-            MaxFireDamage: _itemMutables1.MaxFireDamage
-        });
+        tokenIdToItemMutables1[tokenId] = _itemMutables1;
 
         tokenIdToItemMutables2[tokenId] = ItemMutables2({
             MinColdDamage: _itemMutables2.MinColdDamage,
@@ -253,6 +247,101 @@ contract WeaponTestCollection is
             defaultMutables1,
             defaultMutables2,
             defaultMutables3
+        );
+    }
+
+    function rerollNft(
+        uint256 _tokenId,
+        ItemMutables1 memory itemMutables1,
+        ItemMutables2 memory itemMutables2,
+        ItemMutables3 memory itemMutables3
+    ) public onlyOwner {
+        if (tokenIdToDynamicMode[_tokenId] == DynamicMode.Locked)
+            revert InvalidState(uint8(DynamicMode.Locked));
+        if (tokenIdToDynamicMode[_tokenId] == DynamicMode.Rerolling) {
+            tokenIdToDynamicMode[_tokenId] = DynamicMode.Locked;
+        }
+        tokenIdToItemMutables1[_tokenId] = ItemMutables1({
+            MinDamage: itemMutables1.MinDamage,
+            MaxDamage: itemMutables1.MaxDamage,
+            MinPhysicalDamage: itemMutables1.MinPhysicalDamage,
+            MaxPhysicalDamage: itemMutables1.MaxPhysicalDamage,
+            MinLigthingDamage: itemMutables1.MinLigthingDamage,
+            MaxLigthingDamage: itemMutables1.MaxLigthingDamage,
+            MinAetherealDamage: itemMutables1.MinAetherealDamage,
+            MaxAetherealDamage: itemMutables1.MaxAetherealDamage,
+            MinFireDamage: itemMutables1.MinFireDamage,
+            MaxFireDamage: itemMutables1.MaxFireDamage
+        });
+
+        tokenIdToItemMutables2[_tokenId] = ItemMutables2({
+            MinColdDamage: itemMutables2.MinColdDamage,
+            MaxColdDamage: itemMutables2.MaxColdDamage,
+            AttackSpeed: itemMutables2.AttackSpeed,
+            Range: itemMutables2.Range,
+            CriticalHitChance: itemMutables2.CriticalHitChance,
+            MinCharacterLevel: itemMutables2.MinCharacterLevel,
+            MinVitality: itemMutables2.MinVitality,
+            MinCaliber: itemMutables2.MinCaliber,
+            MinTrickery: itemMutables2.MinTrickery,
+            MinBrilliance: itemMutables2.MinBrilliance
+        });
+
+        tokenIdToItemMutables3[_tokenId] = ItemMutables3({
+            ModsType1: itemMutables3.ModsType1,
+            ModsValue1: itemMutables3.ModsValue1,
+            ModsType2: itemMutables3.ModsType2,
+            ModsValue2: itemMutables3.ModsValue2,
+            ModsType3: itemMutables3.ModsType3,
+            ModsValue3: itemMutables3.ModsValue3,
+            ModsType4: itemMutables3.ModsType4,
+            ModsValue4: itemMutables3.ModsValue4
+        });
+    }
+
+    function rerollLockedNft(uint256 _tokenId) public {
+        if (ownerOf(_tokenId) != msg.sender) revert InvalidAdress(msg.sender);
+        tokenIdToDynamicMode[_tokenId] = DynamicMode.Rerolling;
+        emit RerollLockedNft(_tokenId);
+    }
+
+    function testReroll() public {
+        rerollNft(
+            0,
+            ItemMutables1({
+                MinDamage: 1,
+                MaxDamage: 2,
+                MinPhysicalDamage: 3,
+                MaxPhysicalDamage: 4,
+                MinLigthingDamage: 5,
+                MaxLigthingDamage: 6,
+                MinAetherealDamage: 7,
+                MaxAetherealDamage: 8,
+                MinFireDamage: 9,
+                MaxFireDamage: 10
+            }),
+            ItemMutables2({
+                MinColdDamage: 11,
+                MaxColdDamage: 12,
+                AttackSpeed: 13,
+                Range: 14,
+                CriticalHitChance: 15,
+                MinCharacterLevel: 16,
+                MinVitality: 17,
+                MinCaliber: 18,
+                MinTrickery: 19,
+                MinBrilliance: 20
+            }),
+            ItemMutables3({
+                ModsType1: 1,
+                ModsValue1: 22,
+                ModsType2: 1,
+                ModsValue2: 24,
+                ModsType3: 3,
+                ModsValue3: 26,
+                ModsType4: 4,
+                ModsValue4: 28
+            })
         );
     }
 

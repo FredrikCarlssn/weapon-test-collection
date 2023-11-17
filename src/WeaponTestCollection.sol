@@ -63,6 +63,7 @@ contract WeaponTestCollection is
     }
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
+        require(tokenIdToItemConstantsNumber[_tokenId] != 0, "Token ID does not exist"); //kontrollerar att token ID:n existerar innan försöker hämta dess URI
         ItemConstants storage itemConstants = numberToDefaultMetaData[tokenIdToItemConstantsNumber[_tokenId]];
         ItemImmutables storage itemImmutables = tokenIdToItemImmutables[_tokenId];
         ItemMutables storage itemMutables = tokenIdToItemMutables[_tokenId];
@@ -78,6 +79,7 @@ contract WeaponTestCollection is
         ItemMutables storage itemMutables
     
     ) internal view returns (bytes memory) {
+        require(itemConstants.IMG != "", "Image URL is empty");// identifierar vilka parametrar som kan vara ogiltiga
         bytes memory part1 = abi.encodePacked(
             itemConstants.IMG,
             '", ',

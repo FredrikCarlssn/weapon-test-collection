@@ -35,6 +35,11 @@ contract NFTTest is Test {
         }
     }
 
+    function testReroll() public {
+        vm.prank(msg.sender);
+        weaponTestCollection.testReroll();
+    }
+
     // // WeaponTestCollection.sol Tests
     // function testUri() public {
     //     string memory uri = weaponTestCollection.tokenURI(0);

@@ -7,65 +7,17 @@ contract TestCollectionStorage is Ownable {
     uint8 private s_metaCounter;
     uint8 private s_modsCounter;
     uint8 private s_seasonCounter;
+
     mapping(uint256 => ItemConstants) public numberToDefaultMetaData;
     mapping(uint8 => string) public numberToModsType;
     mapping(uint8 => string) public numberToSeason;
     mapping(uint8 => string) public numberToRarity;
 
-    struct ItemMutables { 
-        ItemMutables1 mutables1;
-        ItemMutables2 mutables2;
-        ItemMutables3 mutables3;
+    enum DynamicMode {
+        Locked,
+        Unlocked,
+        Rerolling
     }
-
-    ItemMutables public defaultMutables = ItemMutables({
-        mutables1: defaultMutables1,
-        mutables2: defaultMutables2,
-        mutables3: defaultMutables3
-    });
-
-    ItemMutables1 public defaultMutables1 =
-        ItemMutables1({
-            MinDamage: 30,
-            MaxDamage: 80,
-            MinPhysicalDamage: 30,
-            MaxPhysicalDamage: 80,
-            MinLigthingDamage: 0,
-            MaxLigthingDamage: 0,
-            MinAetherealDamage: 0,
-            MaxAetherealDamage: 0,
-            MinFireDamage: 0,
-            MaxFireDamage: 0
-        });
-
-    ItemMutables2 public defaultMutables2 =
-        ItemMutables2({
-            MinColdDamage: 0,
-            MaxColdDamage: 0,
-            AttackSpeed: 23,
-            Range: 25,
-            CriticalHitChance: 10,
-            MinCharacterLevel: 5,
-            MinVitality: 0,
-            MinCaliber: 0,
-            MinTrickery: 0,
-            MinBrilliance: 0
-        });
-
-    ItemMutables3 public defaultMutables3 =
-        ItemMutables3({
-            ModsType1: 10, // Physical Damage Min
-            ModsValue1: 25,
-            ModsType2: 11, // Physical Damage Max
-            ModsValue2: 70,
-            ModsType3: 7, // Critical Hit Chance
-            ModsValue3: 6,
-            ModsType4: 9, // Range
-            ModsValue4: 25
-        });
-
-    ItemImmutables public defaultImmutables =
-        ItemImmutables({LootLevel: 55, SeasonLooted: 0, Rarity: 2});
 
     struct ItemConstants {
         string IMG;
@@ -74,10 +26,23 @@ contract TestCollectionStorage is Ownable {
         string Class;
     }
 
+    struct Item {
+        ItemImmutables Immutables;
+        ItemMutables Mutables;
+    }
+
     struct ItemImmutables {
+        uint8 ItemConstantsNumber;
         uint8 LootLevel;
         uint8 SeasonLooted;
         uint8 Rarity;
+    }
+
+    struct ItemMutables {
+        ItemMutables1 Mutables1;
+        ItemMutables2 Mutables2;
+        ItemMutables3 Mutables3;
+        DynamicMode Mode;
     }
 
     struct ItemMutables1 {
@@ -187,4 +152,90 @@ contract TestCollectionStorage is Ownable {
             "1h Sword"
         );
     }
+
+    Item public defaultItem =
+        Item({
+            Immutables: ItemImmutables({
+                ItemConstantsNumber: 0,
+                LootLevel: 55,
+                SeasonLooted: 0,
+                Rarity: 2
+            }),
+            Mutables: ItemMutables({
+                Mutables1: ItemMutables1({
+                    MinDamage: 30,
+                    MaxDamage: 80,
+                    MinPhysicalDamage: 30,
+                    MaxPhysicalDamage: 80,
+                    MinLigthingDamage: 0,
+                    MaxLigthingDamage: 0,
+                    MinAetherealDamage: 0,
+                    MaxAetherealDamage: 0,
+                    MinFireDamage: 0,
+                    MaxFireDamage: 0
+                }),
+                Mutables2: ItemMutables2({
+                    MinColdDamage: 0,
+                    MaxColdDamage: 0,
+                    AttackSpeed: 23,
+                    Range: 25,
+                    CriticalHitChance: 10,
+                    MinCharacterLevel: 5,
+                    MinVitality: 0,
+                    MinCaliber: 0,
+                    MinTrickery: 0,
+                    MinBrilliance: 0
+                }),
+                Mutables3: ItemMutables3({
+                    ModsType1: 10, // Physical Damage Min
+                    ModsValue1: 25,
+                    ModsType2: 11, // Physical Damage Max
+                    ModsValue2: 70,
+                    ModsType3: 7, // Critical Hit Chance
+                    ModsValue3: 6,
+                    ModsType4: 9, // Range
+                    ModsValue4: 25
+                }),
+                Mode: DynamicMode.Unlocked
+            })
+        });
+
+    ItemMutables public rerollItemMutables =
+        ItemMutables({
+            Mutables1: ItemMutables1({
+                MinDamage: 1,
+                MaxDamage: 2,
+                MinPhysicalDamage: 3,
+                MaxPhysicalDamage: 4,
+                MinLigthingDamage: 5,
+                MaxLigthingDamage: 6,
+                MinAetherealDamage: 7,
+                MaxAetherealDamage: 8,
+                MinFireDamage: 9,
+                MaxFireDamage: 10
+            }),
+            Mutables2: ItemMutables2({
+                MinColdDamage: 11,
+                MaxColdDamage: 12,
+                AttackSpeed: 13,
+                Range: 14,
+                CriticalHitChance: 15,
+                MinCharacterLevel: 16,
+                MinVitality: 17,
+                MinCaliber: 18,
+                MinTrickery: 19,
+                MinBrilliance: 20
+            }),
+            Mutables3: ItemMutables3({
+                ModsType1: 1,
+                ModsValue1: 22,
+                ModsType2: 1,
+                ModsValue2: 24,
+                ModsType3: 3,
+                ModsValue3: 26,
+                ModsType4: 4,
+                ModsValue4: 28
+            }),
+            Mode: DynamicMode.Unlocked
+        });
 }

@@ -10,6 +10,7 @@ import {TestCollectionStorage} from "Config/TestCollectionStorage.sol";
 error InvalidMetadataNumber(uint8 _metaDataNumber);
 error InvalidAdress(address _address);
 error InvalidState(uint8 _state);
+error nonExixtentToken(uint256 _tokenId);
 
 contract WeaponTestCollection is
     ERC721,
@@ -46,11 +47,11 @@ contract WeaponTestCollection is
 
         _safeMint(_recipient, tokenId);
     }
-    
+
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
-    require(tokenIdToItemConstantsNumber[_tokenId] != 0, "Token ID does not exist");
+        if (ownerOf(_tokenId) == address(0)) revert nonExixtentToken(_tokenId);
         Item memory item = Item({
             Immutables: tokenIdToItemImmutables[_tokenId],
             Mutables: tokenIdToItemMutables[_tokenId]
@@ -62,24 +63,19 @@ contract WeaponTestCollection is
                     Base64.encode(constructAttributes(item))
                 )
             );
-
     }
 
     function constructAttributes(
         Item memory _item
     ) internal view returns (bytes memory) {
-
-        require(itemConstants.IMG != "", "Image URL is empty");
         ItemConstants memory itemConstants = numberToDefaultMetaData[
             _item.Immutables.ItemConstantsNumber
         ];
         bytes memory part1 = abi.encodePacked(
             itemConstants.IMG,
-            '", ',
-            '"Name": "',
+            '", "Name": "',
             itemConstants.Name,
-            '", "attributes": ',
-            '[{"trait_type": "Type", "value": "',
+            '", "attributes": [{"trait_type": "Type", "value": "',
             itemConstants.Type,
             '"}, {"trait_type": "Class", "value": ',
             itemConstants.Class,
@@ -92,45 +88,42 @@ contract WeaponTestCollection is
         );
         bytes memory part2 = abi.encodePacked(
             '}, {"trait_type": "MinDamage", "value": "',
-            Strings.toString[itemMutables.mutables1.MinDamage],
+            Strings.toString(_item.Mutables.Mutables1.MinDamage),
             '"}, {"trait_type": "MaxDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MaxDamage],
+            Strings.toString(_item.Mutables.Mutables1.MaxDamage),
             '}, {"trait_type": "MinPhysicalDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MinPhysicalDamage],
+            Strings.toString(_item.Mutables.Mutables1.MinPhysicalDamage),
             '}, {"trait_type": "MaxPhysicalDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MaxPhysicalDamage],
-            '}, {"trait_type": "MinLigthingDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MinLigthingDamage],
-            '}, {"trait_type": "MaxLigthingDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MaxLigthingDamage],
-            '}, {"trait_type": "MinAetherealDamage", "value": ',    
-            Strings.toString[itemMutables.mutables1.MinAetherealDamage],
-            '}, {"trait_type": "MaxAetherealDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MaxAetherealDamage]
-        );
-        bytes memory part3 = abi.encodePacked(
-            '}, {"trait_type": "MinFireDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MinFireDamage],
-            '}, {"trait_type": "MaxFireDamage", "value": ',
-            Strings.toString[itemMutables.mutables1.MaxFireDamage],
-            numberToModsType[_item.Mutables.Mutables1.MinDamage],
-            '"}, {"trait_type": "MaxDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MaxDamage],
-            '}, {"trait_type": "MinPhysicalDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MinPhysicalDamage],
-            '}, {"trait_type": "MaxPhysicalDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MaxPhysicalDamage],
-            '}, {"trait_type": "MinLigthingDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MinLigthingDamage],
-            '}, {"trait_type": "MaxLigthingDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MaxLigthingDamage],
+            Strings.toString(_item.Mutables.Mutables1.MaxPhysicalDamage),
+            '}, {"trait_type": "MinLightningDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables1.MinLightningDamage),
+            '}, {"trait_type": "MaxLightningDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables1.MaxLightningDamage),
             '}, {"trait_type": "MinAetherealDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MinAetherealDamage],
-            '}, {"trait_type": "MaxAetherealDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MaxAetherealDamage]
+            Strings.toString(_item.Mutables.Mutables1.MinAetherealDamage)
         );
-       
+
+        bytes memory part3 = abi.encodePacked(
+            '}, {"trait_type": "MaxAetherealDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables1.MaxAetherealDamage),
+            '}, {"trait_type": "MinFireDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables1.MinFireDamage),
+            '}, {"trait_type": "MaxFireDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables1.MaxFireDamage),
+            '}, {"trait_type": "MinColdDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.MinColdDamage),
+            '}, {"trait_type": "MaxColdDamage", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.MaxColdDamage),
+            '}, {"trait_type": "AttackSpeed", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.AttackSpeed),
+            '}, {"trait_type": "Range", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.Range)
+        );
         bytes memory part4 = abi.encodePacked(
+            '}, {"trait_type": "CriticalHitChance", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.CriticalHitChance),
+            '}, {"trait_type": "MinCharacterLevel", "value": ',
+            Strings.toString(_item.Mutables.Mutables2.MinCharacterLevel),
             '}, {"trait_type": "MinVitality", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinVitality),
             '}, {"trait_type": "MinCaliber", "value": ',
@@ -140,11 +133,11 @@ contract WeaponTestCollection is
             '}, {"trait_type": "MinBrilliance", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinBrilliance),
             '}, {"trait_type": "ModsType1", "value": ',
-            numberToModsType[_item.Mutables.Mutables3.ModsType1],
-            '}, {"trait_type": "ModsValue1", "value": ',
-            Strings.toString(_item.Mutables.Mutables3.ModsValue1)
+            numberToModsType[_item.Mutables.Mutables3.ModsType1]
         );
         bytes memory part5 = abi.encodePacked(
+            '}, {"trait_type": "ModsValue1", "value": ',
+            Strings.toString(_item.Mutables.Mutables3.ModsValue1),
             '}, {"trait_type": "ModsType2", "value": ',
             numberToModsType[_item.Mutables.Mutables3.ModsType2],
             '}, {"trait_type": "ModsValue2", "value": ',

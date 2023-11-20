@@ -50,8 +50,8 @@ contract TestCollectionStorage is Ownable {
         uint8 MaxDamage;
         uint8 MinPhysicalDamage;
         uint8 MaxPhysicalDamage;
-        uint8 MinLigthingDamage;
-        uint8 MaxLigthingDamage;
+        uint8 MinLightningDamage;
+        uint8 MaxLightningDamage;
         uint8 MinAetherealDamage;
         uint8 MaxAetherealDamage;
         uint8 MinFireDamage;
@@ -167,8 +167,8 @@ contract TestCollectionStorage is Ownable {
                     MaxDamage: 80,
                     MinPhysicalDamage: 30,
                     MaxPhysicalDamage: 80,
-                    MinLigthingDamage: 0,
-                    MaxLigthingDamage: 0,
+                    MinLightningDamage: 0,
+                    MaxLightningDamage: 0,
                     MinAetherealDamage: 0,
                     MaxAetherealDamage: 0,
                     MinFireDamage: 0,
@@ -207,8 +207,8 @@ contract TestCollectionStorage is Ownable {
                 MaxDamage: 2,
                 MinPhysicalDamage: 3,
                 MaxPhysicalDamage: 4,
-                MinLigthingDamage: 5,
-                MaxLigthingDamage: 6,
+                MinLightningDamage: 5,
+                MaxLightningDamage: 6,
                 MinAetherealDamage: 7,
                 MaxAetherealDamage: 8,
                 MinFireDamage: 9,

@@ -99,27 +99,27 @@ contract WeaponTestCollection is
         );
         bytes memory part2 = abi.encodePacked(
             '}, {"trait_type": "MinDamage", "value": "',
-            numberToModsType[itemMutables.mutables1.MinDamage],
+            Strings.toString[itemMutables.mutables1.MinDamage],
             '"}, {"trait_type": "MaxDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MaxDamage],
+            Strings.toString[itemMutables.mutables1.MaxDamage],
             '}, {"trait_type": "MinPhysicalDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MinPhysicalDamage],
+            Strings.toString[itemMutables.mutables1.MinPhysicalDamage],
             '}, {"trait_type": "MaxPhysicalDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MaxPhysicalDamage],
+            Strings.toString[itemMutables.mutables1.MaxPhysicalDamage],
             '}, {"trait_type": "MinLigthingDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MinLigthingDamage],
+            Strings.toString[itemMutables.mutables1.MinLigthingDamage],
             '}, {"trait_type": "MaxLigthingDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MaxLigthingDamage],
+            Strings.toString[itemMutables.mutables1.MaxLigthingDamage],
             '}, {"trait_type": "MinAetherealDamage", "value": ',    
-            numberToModsType[itemMutables.mutables1.MinAetherealDamage],
+            Strings.toString[itemMutables.mutables1.MinAetherealDamage],
             '}, {"trait_type": "MaxAetherealDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MaxAetherealDamage]
+            Strings.toString[itemMutables.mutables1.MaxAetherealDamage]
         );
         bytes memory part3 = abi.encodePacked(
             '}, {"trait_type": "MinFireDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MinFireDamage],
+            Strings.toString[itemMutables.mutables1.MinFireDamage],
             '}, {"trait_type": "MaxFireDamage", "value": ',
-            numberToModsType[itemMutables.mutables1.MaxFireDamage],
+            Strings.toString[itemMutables.mutables1.MaxFireDamage],
             '}, {"trait_type": "MinColdDamage", "value": ',
             Strings.toString(itemMutables.mutables2.MinColdDamage),
             '}, {"trait_type": "MaxColdDamage", "value": ',

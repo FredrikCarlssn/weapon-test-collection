@@ -46,10 +46,11 @@ contract WeaponTestCollection is
 
         _safeMint(_recipient, tokenId);
     }
-
+    
     function tokenURI(
         uint256 _tokenId
     ) public view override returns (string memory) {
+    require(tokenIdToItemConstantsNumber[_tokenId] != 0, "Token ID does not exist");
         Item memory item = Item({
             Immutables: tokenIdToItemImmutables[_tokenId],
             Mutables: tokenIdToItemMutables[_tokenId]
@@ -61,11 +62,14 @@ contract WeaponTestCollection is
                     Base64.encode(constructAttributes(item))
                 )
             );
+
     }
 
     function constructAttributes(
         Item memory _item
     ) internal view returns (bytes memory) {
+
+        require(itemConstants.IMG != "", "Image URL is empty");
         ItemConstants memory itemConstants = numberToDefaultMetaData[
             _item.Immutables.ItemConstantsNumber
         ];
@@ -88,6 +92,27 @@ contract WeaponTestCollection is
         );
         bytes memory part2 = abi.encodePacked(
             '}, {"trait_type": "MinDamage", "value": "',
+            Strings.toString[itemMutables.mutables1.MinDamage],
+            '"}, {"trait_type": "MaxDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MaxDamage],
+            '}, {"trait_type": "MinPhysicalDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MinPhysicalDamage],
+            '}, {"trait_type": "MaxPhysicalDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MaxPhysicalDamage],
+            '}, {"trait_type": "MinLigthingDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MinLigthingDamage],
+            '}, {"trait_type": "MaxLigthingDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MaxLigthingDamage],
+            '}, {"trait_type": "MinAetherealDamage", "value": ',    
+            Strings.toString[itemMutables.mutables1.MinAetherealDamage],
+            '}, {"trait_type": "MaxAetherealDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MaxAetherealDamage]
+        );
+        bytes memory part3 = abi.encodePacked(
+            '}, {"trait_type": "MinFireDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MinFireDamage],
+            '}, {"trait_type": "MaxFireDamage", "value": ',
+            Strings.toString[itemMutables.mutables1.MaxFireDamage],
             numberToModsType[_item.Mutables.Mutables1.MinDamage],
             '"}, {"trait_type": "MaxDamage", "value": ',
             numberToModsType[_item.Mutables.Mutables1.MaxDamage],
@@ -104,24 +129,7 @@ contract WeaponTestCollection is
             '}, {"trait_type": "MaxAetherealDamage", "value": ',
             numberToModsType[_item.Mutables.Mutables1.MaxAetherealDamage]
         );
-        bytes memory part3 = abi.encodePacked(
-            '}, {"trait_type": "MinFireDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MinFireDamage],
-            '}, {"trait_type": "MaxFireDamage", "value": ',
-            numberToModsType[_item.Mutables.Mutables1.MaxFireDamage],
-            '}, {"trait_type": "MinColdDamage", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.MinColdDamage),
-            '}, {"trait_type": "MaxColdDamage", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.MaxColdDamage),
-            '}, {"trait_type": "AttackSpeed", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.AttackSpeed),
-            '}, {"trait_type": "Range", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.Range),
-            '}, {"trait_type": "CriticalHitChance", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.CriticalHitChance),
-            '}, {"trait_type": "MinCharacterLevel", "value": ',
-            Strings.toString(_item.Mutables.Mutables2.MinCharacterLevel)
-        );
+       
         bytes memory part4 = abi.encodePacked(
             '}, {"trait_type": "MinVitality", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinVitality),

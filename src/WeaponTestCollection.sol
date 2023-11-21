@@ -87,7 +87,7 @@ contract WeaponTestCollection is
             numberToRarity[_item.Immutables.Rarity]
         );
         bytes memory part2 = abi.encodePacked(
-            '"}, {"trait_type": "Damage", "value": "',
+            '"}, {"trait_type": "Total Damage", "value": "',
             Strings.toString(_item.Mutables.Mutables1.MinDamage),
             "-",
             Strings.toString(_item.Mutables.Mutables1.MaxDamage),

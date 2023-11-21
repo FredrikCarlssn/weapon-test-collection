@@ -73,23 +73,23 @@ contract WeaponTestCollection is
         ];
         bytes memory part1 = abi.encodePacked(
             itemConstants.IMG,
-            '", "Name": "',
+            '", "name": "',
             itemConstants.Name,
             '", "attributes": [{"trait_type": "Type", "value": "',
             itemConstants.Type,
-            '"}, {"trait_type": "Class", "value": ',
+            '"}, {"trait_type": "Class", "value": "',
             itemConstants.Class,
-            '}, {"trait_type": "Loot Level", "value": "',
+            '"}, {"trait_type": "Loot Level", "value": ',
             Strings.toString(_item.Immutables.LootLevel),
-            '"}, {"trait_type": "SeasonLooted", "value": "',
+            '}, {"trait_type": "SeasonLooted", "value": "',
             numberToSeason[_item.Immutables.SeasonLooted],
-            '"}, {"trait_type": "Rarity", "value": ',
+            '"}, {"trait_type": "Rarity", "value": "',
             numberToRarity[_item.Immutables.Rarity]
         );
         bytes memory part2 = abi.encodePacked(
-            '}, {"trait_type": "MinDamage", "value": "',
+            '"}, {"trait_type": "MinDamage", "value": ',
             Strings.toString(_item.Mutables.Mutables1.MinDamage),
-            '"}, {"trait_type": "MaxDamage", "value": ',
+            '}, {"trait_type": "MaxDamage", "value": ',
             Strings.toString(_item.Mutables.Mutables1.MaxDamage),
             '}, {"trait_type": "MinPhysicalDamage", "value": ',
             Strings.toString(_item.Mutables.Mutables1.MinPhysicalDamage),
@@ -132,23 +132,23 @@ contract WeaponTestCollection is
             Strings.toString(_item.Mutables.Mutables2.MinTrickery),
             '}, {"trait_type": "MinBrilliance", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinBrilliance),
-            '}, {"trait_type": "ModsType1", "value": ',
+            '}, {"trait_type": "ModsType1", "value": "',
             numberToModsType[_item.Mutables.Mutables3.ModsType1]
         );
         bytes memory part5 = abi.encodePacked(
-            '}, {"trait_type": "ModsValue1", "value": ',
+            '"}, {"trait_type": "ModsValue1", "value": ',
             Strings.toString(_item.Mutables.Mutables3.ModsValue1),
-            '}, {"trait_type": "ModsType2", "value": ',
+            '}, {"trait_type": "ModsType2", "value": "',
             numberToModsType[_item.Mutables.Mutables3.ModsType2],
-            '}, {"trait_type": "ModsValue2", "value": ',
+            '"}, {"trait_type": "ModsValue2", "value": ',
             Strings.toString(_item.Mutables.Mutables3.ModsValue2),
-            '}, {"trait_type": "ModsType3", "value": ',
+            '}, {"trait_type": "ModsType3", "value": "',
             numberToModsType[_item.Mutables.Mutables3.ModsType3],
-            '}, {"trait_type": "ModsValue3", "value": ',
+            '"}, {"trait_type": "ModsValue3", "value": ',
             Strings.toString(_item.Mutables.Mutables3.ModsValue3),
-            '}, {"trait_type": "ModsType4", "value": ',
+            '}, {"trait_type": "ModsType4", "value": "',
             numberToModsType[_item.Mutables.Mutables3.ModsType4],
-            '}, {"trait_type": "ModsValue4", "value": ',
+            '"}, {"trait_type": "ModsValue4", "value": ',
             Strings.toString(_item.Mutables.Mutables3.ModsValue4),
             "}]}"
         );

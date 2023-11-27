@@ -14,8 +14,8 @@ error nonExixtentToken(uint256 _tokenId);
 
 contract WeaponTestCollection is
     ERC721,
-    TestCollectionStorage,
-    ReentrancyGuard
+    ReentrancyGuard,
+    TestCollectionStorage
 {
     uint256 private nonce = 0;
     uint24 private s_tokenCounter;
@@ -25,10 +25,10 @@ contract WeaponTestCollection is
     mapping(uint256 => ItemImmutables) public tokenIdToItemImmutables;
     mapping(uint256 => ItemMutables) public tokenIdToItemMutables;
 
-    event RerollLockedNft(uint256 tokenId);
+    event RerollVaultModeNft(uint256 tokenId);
 
     constructor() ERC721("NEW", "NWE") {
-        defaultMint();
+        randomMint(10);
     }
 
     function mintNft(
@@ -122,15 +122,15 @@ contract WeaponTestCollection is
         bytes memory part4 = abi.encodePacked(
             '}, {"trait_type": "Critical Hit Chance", "value": ',
             Strings.toString(_item.Mutables.Mutables2.CriticalHitChance),
-            '}, {"trait_type": "Min Character lvl", "value": ',
+            '}, {"trait_type": "Required Level", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinCharacterLevel),
-            '}, {"trait_type": "Min Vitality lvl", "value": ',
+            '}, {"trait_type": "Required Vitality", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinVitality),
-            '}, {"trait_type": "Min Caliber lvl", "value": ',
+            '}, {"trait_type": "Required Caliber", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinCaliber),
-            '}, {"trait_type": "Min Trickery lvl", "value": ',
+            '}, {"trait_type": "Required Trickery", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinTrickery),
-            '}, {"trait_type": "Min Brilliance lvl", "value": ',
+            '}, {"trait_type": "Required Brilliance", "value": ',
             Strings.toString(_item.Mutables.Mutables2.MinBrilliance),
             '}, {"trait_type": "Mod 1:',
             numberToModsType[_item.Mutables.Mutables3.ModsType1]
@@ -150,30 +150,16 @@ contract WeaponTestCollection is
             numberToModsType[_item.Mutables.Mutables3.ModsType4],
             '", "value": ',
             Strings.toString(_item.Mutables.Mutables3.ModsValue4),
-            "}]}"
+            '}], "NFTstate": "',
+            _item.Mutables.Mode == DynamicMode.VaultMode
+                ? "VaultMode"
+                : _item.Mutables.Mode == DynamicMode.Rerolling
+                ? "Rerolling"
+                : "GameMode",
+            '"}'
         );
 
         return (abi.encodePacked(part1, part2, part3, part4, part5));
-    }
-
-    // function getRandomNumber(uint8 max) public returns (uint8) {
-    //     uint256 randomnumber = uint256(
-    //         keccak256(
-    //             abi.encodePacked(
-    //                 msg.sender,
-    //                 nonce,
-    //                 block.timestamp,
-    //                 block.number,
-    //                 block.prevrandao
-    //             )
-    //         )
-    //     ) % (max + 1);
-    //     nonce++;
-    //     return uint8(randomnumber);
-    // }
-
-    function defaultMint() public {
-        mintNft(msg.sender, defaultItem);
     }
 
     function rerollNft(
@@ -181,34 +167,68 @@ contract WeaponTestCollection is
         ItemMutables memory _itemMutables
     ) public onlyOwner {
         ItemMutables storage currentItem = tokenIdToItemMutables[_tokenId];
-        if (currentItem.Mode == DynamicMode.Locked)
-            revert InvalidState(uint8(DynamicMode.Locked));
+        if (currentItem.Mode == DynamicMode.VaultMode)
+            revert InvalidState(uint8(DynamicMode.VaultMode));
         if (currentItem.Mode == DynamicMode.Rerolling) {
-            currentItem.Mode = DynamicMode.Locked;
+            currentItem.Mode = DynamicMode.VaultMode;
         }
         currentItem.Mutables1 = _itemMutables.Mutables1;
         currentItem.Mutables2 = _itemMutables.Mutables2;
         currentItem.Mutables3 = _itemMutables.Mutables3;
     }
 
-    function rerollLockedNft(uint256 _tokenId) public {
+    function rerollVaultModeNft(uint256 _tokenId) public {
         if (ownerOf(_tokenId) != msg.sender) revert InvalidAdress(msg.sender);
         tokenIdToItemMutables[_tokenId].Mode = DynamicMode.Rerolling;
-        emit RerollLockedNft(_tokenId);
+        emit RerollVaultModeNft(_tokenId);
     }
 
     function lockNft(uint256 _tokenId) public {
         if (ownerOf(_tokenId) != msg.sender) revert InvalidAdress(msg.sender);
-        tokenIdToItemMutables[_tokenId].Mode = DynamicMode.Locked;
+        tokenIdToItemMutables[_tokenId].Mode = DynamicMode.VaultMode;
     }
 
     function unlockNft(uint256 _tokenId) public {
         if (ownerOf(_tokenId) != msg.sender) revert InvalidAdress(msg.sender);
-        tokenIdToItemMutables[_tokenId].Mode = DynamicMode.Unlocked;
+        tokenIdToItemMutables[_tokenId].Mode = DynamicMode.GameMode;
     }
 
-    function testReroll() public {
-        rerollNft(0, rerollItemMutables);
+    function randomMint(uint8 numNfts) public onlyOwner {
+        for (uint8 i = 0; i < numNfts; i++) {
+            Item memory newItem = numberToDefaulItem[getRandomNumber(3)];
+            mintNft(msg.sender, newItem);
+        }
+    }
+
+    function dummieReroll(uint256 _tokenId) public {
+        if (ownerOf(_tokenId) != msg.sender) revert InvalidAdress(msg.sender);
+        ItemMutables storage currentItem = tokenIdToItemMutables[_tokenId];
+        if (currentItem.Mode == DynamicMode.VaultMode)
+            revert InvalidState(uint8(DynamicMode.VaultMode));
+        if (currentItem.Mode == DynamicMode.Rerolling) {
+            currentItem.Mode = DynamicMode.VaultMode;
+        }
+
+        ItemMutables3 memory mockRerollData = numberToDummieReroll[
+            getRandomNumber(4)
+        ];
+        currentItem.Mutables3 = mockRerollData;
+    }
+
+    function getRandomNumber(uint8 max) public returns (uint8) {
+        uint256 randomnumber = uint256(
+            keccak256(
+                abi.encodePacked(
+                    msg.sender,
+                    nonce,
+                    block.timestamp,
+                    block.number,
+                    block.prevrandao
+                )
+            )
+        ) % (max + 1);
+        nonce++;
+        return uint8(randomnumber);
     }
 
     function totalSupply() public view returns (uint256) {

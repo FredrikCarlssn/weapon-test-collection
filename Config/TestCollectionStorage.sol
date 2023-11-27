@@ -12,10 +12,12 @@ contract TestCollectionStorage is Ownable {
     mapping(uint8 => string) public numberToModsType;
     mapping(uint8 => string) public numberToSeason;
     mapping(uint8 => string) public numberToRarity;
+    mapping(uint256 => Item) public numberToDefaulItem;
+    mapping(uint256 => ItemMutables3) public numberToDummieReroll;
 
     enum DynamicMode {
-        Locked,
-        Unlocked,
+        VaultMode,
+        GameMode,
         Rerolling
     }
 
@@ -125,41 +127,58 @@ contract TestCollectionStorage is Ownable {
     constructor() Ownable(msg.sender) {
         // Mods list
         createMod("Critical Hit Damage"); // 0
-        createMod("MinMaxDamage"); // 1
-        createMod("Bleed Chance"); // 2
-        createMod("Loot Rarity"); // 3
-        createMod("Stun Chance"); // 4
-        createMod("Brilliance"); // 5
-        createMod("Max Life"); // 6
-        createMod("Critical Hit Chance"); // 7
-        createMod("Max Aether"); // 8
-        createMod("Range"); // 9
-        createMod("Physical Damage Min"); // 10
-        createMod("Physical Damage Max"); // 11
+        createMod("MinDamage"); // 1
+        createMod("MaxDamage"); // 2
+        createMod("Bleed Chance"); // 3
+        createMod("Loot Rarity"); // 4
+        createMod("Stun Chance"); // 5
+        createMod("Brilliance"); // 6
+        createMod("Max Life"); // 7
+        createMod("Critical Hit Chance"); // 8
+        createMod("Max Aether"); // 9
+        createMod("Range"); // 10
+        createMod("Physical Damage Min"); // 11
+        createMod("Physical Damage Max"); // 12
         // Season list
         createSeason("Open Beta"); // 0
         // Rarity
-        createRarity("Uncommon"); // 0
-        createRarity("Common"); // 1
+        createRarity("Common"); // 0
+        createRarity("Uncommon"); // 1
         createRarity("Rare"); // 2
         createRarity("Legendary"); // 3
 
         // NFT list
-        createMetadata(
-            "QmYh6LbBZxuiAN23VdSMv8oXKsQ5S9sFCiC2nwZsd3NSrn",
+        createMetadata( // 0
+            "QmYy1zr6J3LiRJCAF399fKASmUv9cCf2U91PJ5W2ULotWM",
             "Sharpened Chunk of Junk",
             "Saw Blade",
             "1h Sword"
         );
-    }
+        createMetadata( // 1
+            "QmUTeNHrcRZBY5zDwmQHJ3pkSafsLP6JLeG8bvB8zPwH7i",
+            "Makeshift Rifle",
+            "Rifle",
+            "2h Rifle"
+        );
+        createMetadata( // 2
+            "QmXArSWLAiKfaheArcKbMZgsFxBieKMBCNziR8zDpYmCK9",
+            "Bulldozer Shotgun",
+            "Shotgun",
+            "2h Shotgun"
+        );
+        createMetadata( // 3
+            "Qmd7wdKbPPZabYysDqBJd1M71oJ5McuEhRib4raxAkZZmB",
+            "Aetherblade Gladius",
+            "Heavy Sword",
+            "2h Sword"
+        );
 
-    Item public defaultItem =
-        Item({
+        numberToDefaulItem[0] = Item({
             Immutables: ItemImmutables({
                 ItemConstantsNumber: 0,
                 LootLevel: 55,
                 SeasonLooted: 0,
-                Rarity: 2
+                Rarity: 0
             }),
             Mutables: ItemMutables({
                 Mutables1: ItemMutables1({
@@ -187,55 +206,203 @@ contract TestCollectionStorage is Ownable {
                     MinBrilliance: 0
                 }),
                 Mutables3: ItemMutables3({
-                    ModsType1: 10, // Physical Damage Min
+                    ModsType1: 10,
                     ModsValue1: 25,
-                    ModsType2: 11, // Physical Damage Max
+                    ModsType2: 11,
                     ModsValue2: 70,
-                    ModsType3: 7, // Critical Hit Chance
+                    ModsType3: 7,
                     ModsValue3: 6,
-                    ModsType4: 9, // Range
+                    ModsType4: 9,
                     ModsValue4: 25
                 }),
-                Mode: DynamicMode.Unlocked
+                Mode: DynamicMode.GameMode
+            })
+        });
+        numberToDefaulItem[1] = Item({
+            Immutables: ItemImmutables({
+                ItemConstantsNumber: 1,
+                LootLevel: 38,
+                SeasonLooted: 0,
+                Rarity: 0
+            }),
+            Mutables: ItemMutables({
+                Mutables1: ItemMutables1({
+                    MinDamage: 20,
+                    MaxDamage: 60,
+                    MinPhysicalDamage: 20,
+                    MaxPhysicalDamage: 60,
+                    MinLightningDamage: 0,
+                    MaxLightningDamage: 0,
+                    MinAetherealDamage: 0,
+                    MaxAetherealDamage: 0,
+                    MinFireDamage: 0,
+                    MaxFireDamage: 0
+                }),
+                Mutables2: ItemMutables2({
+                    MinColdDamage: 0,
+                    MaxColdDamage: 0,
+                    AttackSpeed: 15,
+                    Range: 40,
+                    CriticalHitChance: 15,
+                    MinCharacterLevel: 2,
+                    MinVitality: 5,
+                    MinCaliber: 0,
+                    MinTrickery: 0,
+                    MinBrilliance: 0
+                }),
+                Mutables3: ItemMutables3({
+                    ModsType1: 5,
+                    ModsValue1: 10,
+                    ModsType2: 10,
+                    ModsValue2: 10,
+                    ModsType3: 7,
+                    ModsValue3: 10,
+                    ModsType4: 9,
+                    ModsValue4: 10
+                }),
+                Mode: DynamicMode.GameMode
+            })
+        });
+        numberToDefaulItem[2] = Item({
+            Immutables: ItemImmutables({
+                ItemConstantsNumber: 2,
+                LootLevel: 100,
+                SeasonLooted: 0,
+                Rarity: 2
+            }),
+            Mutables: ItemMutables({
+                Mutables1: ItemMutables1({
+                    MinDamage: 10,
+                    MaxDamage: 110,
+                    MinPhysicalDamage: 10,
+                    MaxPhysicalDamage: 100,
+                    MinLightningDamage: 0,
+                    MaxLightningDamage: 10,
+                    MinAetherealDamage: 0,
+                    MaxAetherealDamage: 0,
+                    MinFireDamage: 0,
+                    MaxFireDamage: 0
+                }),
+                Mutables2: ItemMutables2({
+                    MinColdDamage: 0,
+                    MaxColdDamage: 0,
+                    AttackSpeed: 23,
+                    Range: 15,
+                    CriticalHitChance: 20,
+                    MinCharacterLevel: 80,
+                    MinVitality: 0,
+                    MinCaliber: 30,
+                    MinTrickery: 10,
+                    MinBrilliance: 0
+                }),
+                Mutables3: ItemMutables3({
+                    ModsType1: 3,
+                    ModsValue1: 10,
+                    ModsType2: 11,
+                    ModsValue2: 70,
+                    ModsType3: 7,
+                    ModsValue3: 10,
+                    ModsType4: 5,
+                    ModsValue4: 10
+                }),
+                Mode: DynamicMode.GameMode
+            })
+        });
+        numberToDefaulItem[3] = Item({
+            Immutables: ItemImmutables({
+                ItemConstantsNumber: 3,
+                LootLevel: 65,
+                SeasonLooted: 0,
+                Rarity: 2
+            }),
+            Mutables: ItemMutables({
+                Mutables1: ItemMutables1({
+                    MinDamage: 70,
+                    MaxDamage: 80,
+                    MinPhysicalDamage: 70,
+                    MaxPhysicalDamage: 80,
+                    MinLightningDamage: 0,
+                    MaxLightningDamage: 0,
+                    MinAetherealDamage: 0,
+                    MaxAetherealDamage: 0,
+                    MinFireDamage: 0,
+                    MaxFireDamage: 0
+                }),
+                Mutables2: ItemMutables2({
+                    MinColdDamage: 0,
+                    MaxColdDamage: 0,
+                    AttackSpeed: 30,
+                    Range: 15,
+                    CriticalHitChance: 30,
+                    MinCharacterLevel: 55,
+                    MinVitality: 30,
+                    MinCaliber: 0,
+                    MinTrickery: 0,
+                    MinBrilliance: 27
+                }),
+                Mutables3: ItemMutables3({
+                    ModsType1: 10,
+                    ModsValue1: 25,
+                    ModsType2: 11,
+                    ModsValue2: 70,
+                    ModsType3: 7,
+                    ModsValue3: 6,
+                    ModsType4: 9,
+                    ModsValue4: 25
+                }),
+                Mode: DynamicMode.GameMode
             })
         });
 
-    ItemMutables public rerollItemMutables =
-        ItemMutables({
-            Mutables1: ItemMutables1({
-                MinDamage: 1,
-                MaxDamage: 2,
-                MinPhysicalDamage: 3,
-                MaxPhysicalDamage: 4,
-                MinLightningDamage: 5,
-                MaxLightningDamage: 6,
-                MinAetherealDamage: 7,
-                MaxAetherealDamage: 8,
-                MinFireDamage: 9,
-                MaxFireDamage: 10
-            }),
-            Mutables2: ItemMutables2({
-                MinColdDamage: 11,
-                MaxColdDamage: 12,
-                AttackSpeed: 13,
-                Range: 14,
-                CriticalHitChance: 15,
-                MinCharacterLevel: 16,
-                MinVitality: 17,
-                MinCaliber: 18,
-                MinTrickery: 19,
-                MinBrilliance: 20
-            }),
-            Mutables3: ItemMutables3({
-                ModsType1: 1,
-                ModsValue1: 22,
-                ModsType2: 1,
-                ModsValue2: 24,
-                ModsType3: 3,
-                ModsValue3: 26,
-                ModsType4: 4,
-                ModsValue4: 28
-            }),
-            Mode: DynamicMode.Unlocked
+        numberToDummieReroll[0] = ItemMutables3({
+            ModsType1: 10,
+            ModsValue1: 25,
+            ModsType2: 11,
+            ModsValue2: 70,
+            ModsType3: 7,
+            ModsValue3: 6,
+            ModsType4: 9,
+            ModsValue4: 25
         });
+        numberToDummieReroll[1] = ItemMutables3({
+            ModsType1: 1,
+            ModsValue1: 10,
+            ModsType2: 2,
+            ModsValue2: 20,
+            ModsType3: 7,
+            ModsValue3: 10,
+            ModsType4: 9,
+            ModsValue4: 15
+        });
+        numberToDummieReroll[2] = ItemMutables3({
+            ModsType1: 9,
+            ModsValue1: 20,
+            ModsType2: 11,
+            ModsValue2: 20,
+            ModsType3: 12,
+            ModsValue3: 30,
+            ModsType4: 4,
+            ModsValue4: 30
+        });
+        numberToDummieReroll[3] = ItemMutables3({
+            ModsType1: 6,
+            ModsValue1: 35,
+            ModsType2: 4,
+            ModsValue2: 20,
+            ModsType3: 3,
+            ModsValue3: 10,
+            ModsType4: 0,
+            ModsValue4: 20
+        });
+        numberToDummieReroll[4] = ItemMutables3({
+            ModsType1: 7,
+            ModsValue1: 15,
+            ModsType2: 5,
+            ModsValue2: 30,
+            ModsType3: 10,
+            ModsValue3: 10,
+            ModsType4: 4,
+            ModsValue4: 17
+        });
+    }
 }

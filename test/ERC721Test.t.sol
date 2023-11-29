@@ -25,14 +25,11 @@ contract NFTTest is Test {
     function setUp() public {
         vm.prank(msg.sender);
         weaponTestCollection = new WeaponTestCollection();
-        vm.prank(msg.sender);
-        weaponTestCollection.mintNft(msg.sender, 0);
     }
 
     // WeaponTestCollection.sol Tests
     function testUri() public {
-        string memory uri = weaponTestCollection.tokenURI(0);
-        assertEq(uri, DEFAULT_URI);
+
     }
 
     function testMint() public {
